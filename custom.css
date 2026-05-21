@@ -49,3 +49,15 @@
 .hs-cmsf-branding__button {
   display: none !important;
 }
+
+/* Hide offer bubbles ("Schnell & Digital", "Beliebt", "Premium") */
+.causes_box .top_cont h6 {
+  display: none !important;
+}
+
+/* Highlight Online-Beratung card */
+#hs_cos_wrapper_module_177938010224915 .causes_box {
+  border: 2px solid #b8845a !important;
+  box-shadow: 0 8px 32px rgba(184, 132, 90, 0.18) !important;
+  transform: translateY(-6px);
+}
