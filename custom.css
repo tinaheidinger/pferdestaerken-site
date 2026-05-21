@@ -44,6 +44,29 @@
   .title_box.left.style_one {
     margin-top: 24px !important;
   }
+
+  /* Blog post table: scrollable, smaller text, no border */
+  .entry-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    white-space: nowrap;
+    font-size: 13px !important;
+    border: none !important;
+  }
+
+  .entry-content table td:first-child,
+  .entry-content table th:first-child {
+    max-width: 120px !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  .entry-content table td,
+  .entry-content table th {
+    border: none !important;
+  }
 }
 
 .hs-cmsf-branding__button {
