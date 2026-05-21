@@ -33,6 +33,17 @@
     width: calc(100% + 32px) !important;
     margin-left: -16px !important;
   }
+
+  /* Reduce portrait image size */
+  .module_16660183687346-flexbox-positioning img {
+    max-height: 260px !important;
+    width: auto !important;
+  }
+
+  /* Space above "Mein Angebot" button */
+  .title_box.left.style_one {
+    margin-top: 24px !important;
+  }
 }
 
 .hs-cmsf-branding__button {
