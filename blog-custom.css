@@ -5,7 +5,8 @@
   }
 
   .entry-content table {
-    display: table !important;
+    width: auto !important;
+    table-layout: auto !important;
     white-space: nowrap;
     font-size: 13px !important;
     border: none !important;
