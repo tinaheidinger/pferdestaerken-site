@@ -1,0 +1,37 @@
+name: Deploy to HubSpot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install HubSpot CLI
+        run: npm install -g @hubspot/cli@6.1.0
+
+      - name: Deploy custom.css to HubSpot
+        env:
+          HUBSPOT_PORTAL_ID: ${{ secrets.HUBSPOT_PORTAL_ID }}
+          HUBSPOT_PERSONAL_ACCESS_KEY: ${{ secrets.HUBSPOT_PERSONAL_ACCESS_KEY }}
+        run: |
+          cat > hubspot.config.yml <<EOF
+          defaultPortal: pferdestaerken
+          portals:
+            - name: pferdestaerken
+              portalId: ${HUBSPOT_PORTAL_ID}
+              authType: personalaccesskey
+              personalAccessKey: >-
+                ${HUBSPOT_PERSONAL_ACCESS_KEY}
+          EOF
+          hs upload --config hubspot.config.yml --account pferdestaerken custom.css custom.css

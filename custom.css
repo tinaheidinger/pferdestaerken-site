@@ -1,0 +1,26 @@
+/* @import url('http://example.com/example_style.css'); */
+
+/***********************************************/
+/* CSS @imports must be at the top of the file */
+/* Add them above this section                 */
+/***********************************************/
+
+/*****************************************/
+/* Start your style declarations here    */
+/*****************************************/
+
+.botom_content {
+  display: none;
+}
+
+.banner-carousel .active .content_box h1 {
+  color: white;
+}
+
+.col-lg-6 {
+  width: 100%;
+}
+
+.hs-cmsf-branding__button {
+  display: none !important;
+}
