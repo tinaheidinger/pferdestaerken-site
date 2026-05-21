@@ -1,0 +1,23 @@
+@media (max-width: 767px) {
+  .entry-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    white-space: nowrap;
+    font-size: 13px !important;
+    border: none !important;
+  }
+
+  .entry-content table td:first-child,
+  .entry-content table th:first-child {
+    max-width: 120px !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  .entry-content table td,
+  .entry-content table th {
+    border: none !important;
+  }
+}
