@@ -31,4 +31,4 @@ jobs:
               personalAccessKey: ${{ secrets.HUBSPOT_PERSONAL_ACCESS_KEY }}
           HSCFG
           hs upload custom.css custom.css
-          hs filemanager upload blog-custom.css blog-custom.css
+          hs upload blog-custom.css blog-custom.css
