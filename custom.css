@@ -55,6 +55,11 @@
   display: none !important;
 }
 
+/* Hide brown decorative dots next to prices */
+.causes_box .image ul li:first-child {
+  display: none !important;
+}
+
 /* Highlight Online-Beratung card */
 #hs_cos_wrapper_module_177938010224915 .causes_box {
   border: 2px solid #b8845a !important;
