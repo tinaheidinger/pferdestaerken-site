@@ -21,7 +21,13 @@ jobs:
         run: npm install -g @hubspot/cli@6.1.0
 
       - name: Deploy custom.css to HubSpot
-        env:
-          HUBSPOT_PORTAL_ID: ${{ secrets.HUBSPOT_PORTAL_ID }}
-          HUBSPOT_PERSONAL_ACCESS_KEY: ${{ secrets.HUBSPOT_PERSONAL_ACCESS_KEY }}
-        run: hs upload custom.css custom.css
+        run: |
+          cat > hubspot.config.yml <<'HSCFG'
+          defaultPortal: pferdestaerken
+          portals:
+            - name: pferdestaerken
+              portalId: ${{ secrets.HUBSPOT_PORTAL_ID }}
+              authType: personalaccesskey
+              personalAccessKey: ${{ secrets.HUBSPOT_PERSONAL_ACCESS_KEY }}
+          HSCFG
+          hs upload custom.css custom.css
