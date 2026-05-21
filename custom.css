@@ -21,6 +21,25 @@
   width: 100%;
 }
 
+@media (max-width: 767px) {
+  /* Only target inner content columns, not outer section wrappers */
+  .dnd-column {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Keep hero banner image full width, but pad the text inside */
+  .banner-carousel .dnd-column {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .banner-carousel .content_box {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
 .hs-cmsf-branding__button {
   display: none !important;
 }
