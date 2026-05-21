@@ -28,15 +28,10 @@
     padding-right: 16px !important;
   }
 
-  /* Keep hero banner image full width, but pad the text inside */
-  .banner-carousel .dnd-column {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .banner-carousel .content_box {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+  /* Break hero image out of the padded column */
+  .page_header_title {
+    width: calc(100% + 32px) !important;
+    margin-left: -16px !important;
   }
 }
 
