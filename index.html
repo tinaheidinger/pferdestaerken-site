@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pferdestaerken – Redesign Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #2E2620;
+      background: #FDFAF6;
+      line-height: 1.6;
+    }
+
+    :root {
+      --brown-dark: #2E2620;
+      --brown-mid: #6B5744;
+      --amber: #B8832A;
+      --amber-light: #D4A44C;
+      --cream: #FDFAF6;
+      --sand: #F2EBE0;
+      --sand-dark: #E4D9CC;
+      --text-muted: #7A6B5E;
+      --white: #FFFFFF;
+      --border: #DDD5C8;
+    }
+
+    h1, h2, h3 { font-family: 'Lora', serif; line-height: 1.2; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(253,250,246,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 600;
+      color: var(--brown-dark); letter-spacing: 0.01em;
+    }
+    .nav-logo span { color: var(--amber); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500; color: var(--brown-mid);
+      text-decoration: none; letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-cta {
+      background: var(--brown-dark) !important; color: var(--white) !important;
+      padding: 8px 20px; border-radius: 3px;
+    }
+    .nav-cta:hover { background: var(--amber) !important; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; height: 88vh; min-height: 560px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #3a2e25 0%, #6b5744 55%, #8a7060 100%);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(22,14,8,0.78) 0%, rgba(22,14,8,0.28) 55%, transparent 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 80px 88px; max-width: 680px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--amber-light); margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--amber-light);
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 3.8vw, 3.2rem); color: var(--white);
+      font-weight: 600; margin-bottom: 20px; line-height: 1.18;
+    }
+    .hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.8);
+      max-width: 480px; margin-bottom: 36px; line-height: 1.75;
+    }
+    .hero-actions { display: flex; gap: 14px; align-items: center; }
+    .btn-primary {
+      background: var(--amber); color: var(--white);
+      padding: 14px 30px; border-radius: 3px; font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.02em; transition: background 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--amber-light); }
+    .btn-ghost {
+      color: rgba(255,255,255,0.82); font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-ghost::after { content: '→'; }
+    .btn-ghost:hover { color: var(--white); }
+
+    /* ── Sections ── */
+    .section { padding: 100px 80px; }
+    .section-sand { background: var(--sand); }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 22px; height: 1.5px; background: var(--amber);
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 88px; align-items: center; max-width: 1200px; margin: 0 auto;
+    }
+    .about-img-wrap { position: relative; }
+    .about-img {
+      aspect-ratio: 4/5; border-radius: 3px; overflow: hidden;
+      background: linear-gradient(155deg, #c8b090 0%, #8a6040 100%);
+    }
+    .about-img-accent {
+      position: absolute; bottom: -14px; right: -14px;
+      width: 72px; height: 72px; background: var(--amber); border-radius: 2px; z-index: -1;
+    }
+    .about-text h2 { font-size: 2.1rem; margin-bottom: 18px; color: var(--brown-dark); }
+    .about-text p { color: var(--text-muted); font-size: 0.975rem; line-height: 1.85; margin-bottom: 18px; }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; margin-top: 28px; }
+    .feature-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.875rem; color: var(--brown-mid); font-weight: 500;
+    }
+    .feature-item::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--amber); flex-shrink: 0;
+    }
+
+    /* ── Pricing ── */
+    .pricing-intro { text-align: center; margin-bottom: 56px; }
+    .pricing-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 12px; }
+    .pricing-intro p { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1200px; margin: 0 auto;
+    }
+    .p-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; transition: box-shadow 0.25s; position: relative;
+    }
+    .p-card:hover { box-shadow: 0 8px 36px rgba(46,38,32,0.09); }
+    .p-card.featured { border-color: var(--amber); }
+    .p-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--amber); color: var(--white);
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+    }
+    .p-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: var(--sand-dark); display: block;
+    }
+    .p-body { padding: 28px; }
+    .p-price {
+      font-size: 1.8rem; font-weight: 700; color: var(--brown-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 2px;
+    }
+    .p-price sub { font-size: 0.85rem; font-weight: 400; color: var(--text-muted); }
+    .p-title { font-family: 'Lora', serif; font-size: 1.15rem; color: var(--brown-dark); margin: 8px 0 12px; }
+    .p-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; }
+    .btn-outline {
+      display: block; text-align: center; border: 1.5px solid var(--brown-dark);
+      color: var(--brown-dark); padding: 11px 20px; border-radius: 3px;
+      font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--brown-dark); color: var(--white); }
+    .btn-filled {
+      display: block; text-align: center; background: var(--amber);
+      color: var(--white); padding: 11px 20px; border-radius: 3px;
+      font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.2s;
+    }
+    .btn-filled:hover { background: var(--amber-light); }
+
+    /* ── Courses ── */
+    .courses-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
+    .courses-top h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 10px; }
+    .courses-top p { color: var(--text-muted); max-width: 520px; line-height: 1.8; }
+    .courses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .c-card { background: var(--white); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+    .c-img { width: 100%; aspect-ratio: 3/2; display: block; }
+    .c-body { padding: 24px; }
+    .c-body h3 { font-family: 'Lora', serif; font-size: 1.05rem; color: var(--brown-dark); margin-bottom: 14px; line-height: 1.45; }
+    .link-arrow { display: inline-flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: var(--amber); text-decoration: none; }
+    .link-arrow::after { content: '→'; transition: transform 0.2s; }
+    .link-arrow:hover::after { transform: translateX(3px); }
+
+    /* ── Gallery ── */
+    .gallery-intro { text-align: center; margin-bottom: 52px; }
+    .gallery-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
+    .gallery-intro p { color: var(--text-muted); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .g-card { border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+    .g-before-after { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; aspect-ratio: 3/4; }
+    .g-caption { padding: 16px 18px; background: var(--white); }
+    .g-caption .horse { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .g-caption .diagnosis { font-size: 0.95rem; font-weight: 600; color: var(--brown-dark); }
+
+    /* ── FAQ ── */
+    .faq-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 88px; align-items: start; max-width: 1200px; margin: 0 auto; }
+    .faq-side h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 14px; }
+    .faq-side p { color: var(--text-muted); line-height: 1.8; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 22px 0; cursor: pointer; }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q { font-size: 0.975rem; font-weight: 600; color: var(--brown-dark); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .faq-icon {
+      width: 26px; height: 26px; border: 1.5px solid var(--amber); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      color: var(--amber); font-size: 1rem; line-height: 1;
+    }
+
+    /* ── Blog ── */
+    .blog-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
+    .blog-top h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
+    .blog-top p { color: var(--text-muted); max-width: 440px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .b-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 3px;
+      overflow: hidden; text-decoration: none; display: block; transition: box-shadow 0.2s;
+    }
+    .b-card:hover { box-shadow: 0 4px 20px rgba(46,38,32,0.07); }
+    .b-img { width: 100%; aspect-ratio: 16/10; display: block; }
+    .b-body { padding: 18px 20px; }
+    .b-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+    .b-card h3 { font-family: 'Lora', serif; font-size: 0.975rem; color: var(--brown-dark); line-height: 1.5; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--brown-dark); color: rgba(255,255,255,0.65);
+      padding: 48px 80px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;
+    }
+    .foot-logo { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 4px; }
+    footer a { color: rgba(255,255,255,0.55); text-decoration: none; margin-left: 28px; font-size: 0.8rem; }
+    footer a:hover { color: var(--white); }
+
+    /* ── Stat strip ── */
+    .stat-strip {
+      background: var(--brown-dark); color: var(--white);
+      padding: 32px 80px; display: flex; justify-content: center; gap: 80px;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Lora', serif; font-size: 2rem; font-weight: 600; color: var(--amber-light); }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 2px; letter-spacing: 0.04em; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pferde<span>stärken</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Angebot</a></li>
+    <li><a href="#">Kurse & E-Books</a></li>
+    <li><a href="#">Erfolge</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#" class="nav-cta">Beratung anfragen</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <!-- Using a gradient as stand-in for the hero horse photo -->
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Unabhängige Ernährungsberatung</div>
+    <h1>Futterberatung für Pferde — wissenschaftlich &amp; individuell</h1>
+    <p>Die Grundlage für ein gesundes, leistungsstarkes Pferd liegt in der Fütterung. Ich helfe dir, die Ration deines Pferdes zu optimieren.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Beratung anfragen</a>
+      <a href="#" class="btn-ghost">Angebot ansehen</a>
+    </div>
+  </div>
+</div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Beratungen</div></div>
+  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Jahre Erfahrung</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Kurse & E-Books</div></div>
+</div>
+
+<!-- ABOUT / INTRO -->
+<div class="section">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img"></div>
+      <div class="about-img-accent"></div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Mein Angebot</div>
+      <h2>Individuelle Futterberatung</h2>
+      <p>Die Ernährung ist ein essentieller Hauptbestandteil für die Gesundheit und das Wohlergehen eines Pferdes. Jedoch ist das Angebot der Futtermittelindustrie immer unübersichtlicher, während die Bedürfnisse unserer Pferde vielschichtiger werden.</p>
+      <p>Um ein Pferd dauerhaft gesund zu erhalten, ist es sinnvoll, bereits im gesunden Zustand die Ration zu optimieren — wissenschaftlich und ganzheitlich. Spätestens wenn Kotwasser, Koliken, Haut-, Fell- und Hufprobleme oder Verhaltensauffälligkeiten auftreten, lohnt sich eine professionelle Beratung.</p>
+      <div class="feature-grid">
+        <div class="feature-item">Rationsberechnung</div>
+        <div class="feature-item">Ausgleich von Nährstoffmängeln</div>
+        <div class="feature-item">Interpretation von Heuanalysen</div>
+        <div class="feature-item">Unterstützung bei Erkrankungen</div>
+        <div class="feature-item">Gesunde Diätfütterung</div>
+        <div class="feature-item">Junge, alte, tragende Pferde</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="section section-sand">
+  <div class="pricing-intro">
+    <div class="section-label" style="justify-content:center;">Leistungen & Preise</div>
+    <h2>Beratungsangebote</h2>
+    <p>Von der schnellen Einschätzung bis zur umfassenden persönlichen Beratung — wähle das Paket, das zu dir passt.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="p-card">
+      <div class="p-img" style="background:linear-gradient(135deg,#d4c4a8 0%,#b89870 100%);"></div>
+      <div class="p-body">
+        <div class="p-price">35 €</div>
+        <div class="p-title">Rations-QuickCheck</div>
+        <p class="p-desc">Du schickst mir Basisdaten und eine Heuanalyse, ich liefere dir ein klares Bild, wo deine Ration steht. Über- und Unterversorgung auf einen Blick.</p>
+        <a href="#" class="btn-outline">Zum QuickCheck</a>
+      </div>
+    </div>
+    <div class="p-card featured">
+      <div class="p-badge">Beliebt</div>
+      <div class="p-img" style="background:linear-gradient(135deg,#b89870 0%,#7a5030 100%);"></div>
+      <div class="p-body">
+        <div class="p-price">180 €</div>
+        <div class="p-title">Online-Beratung</div>
+        <p class="p-desc">Ausführliche, persönliche Beratung. Ich sichte Vorbefunde, frage Fotos und Videos an und erstelle einen detaillierten Bericht mit Rationsplan.</p>
+        <a href="#" class="btn-filled">Beratung anfragen</a>
+      </div>
+    </div>
+    <div class="p-card">
+      <div class="p-img" style="background:linear-gradient(135deg,#c4a882 0%,#6a4828 100%);"></div>
+      <div class="p-body">
+        <div class="p-price">230 € <sub>zzgl. Anfahrt</sub></div>
+        <div class="p-title">Vor-Ort-Beratung</div>
+        <p class="p-desc">Ich komme zu dir und deinem Pferd in den Stall. Die professionelle Beurteilung von Körperkondition und Haltung ermöglicht eine maximal umfassende Beratung.</p>
+        <a href="#" class="btn-outline">Beratung anfragen</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COURSES -->
+<div class="section">
+  <div class="container">
+    <div class="courses-top">
+      <div>
+        <div class="section-label">Kurse & E-Books</div>
+        <h2>Meine Kurse und E-Books</h2>
+        <p>Praxisnah aufbereitet, wissenschaftlich fundiert — für alle, die ihr Wissen rund um Pferdeernährung vertiefen möchten. Verfügbar auf der Akademie-Kursplattform.</p>
+      </div>
+      <a href="#" class="link-arrow" style="flex-shrink:0; margin-bottom:4px;">Zur Kursplattform</a>
+    </div>
+    <div class="courses-grid">
+      <div class="c-card">
+        <div class="c-img" style="background:linear-gradient(135deg,#c8b490 0%,#7a5830 100%);aspect-ratio:3/2;"></div>
+        <div class="c-body"><h3>Onlinekurs „Hufe gesund füttern"</h3><a href="#" class="link-arrow">Mehr Infos</a></div>
+      </div>
+      <div class="c-card">
+        <div class="c-img" style="background:linear-gradient(135deg,#a8c090 0%,#507038 100%);aspect-ratio:3/2;"></div>
+        <div class="c-body"><h3>Onlinekurs „Das 1×1 der Heuanalyse"</h3><a href="#" class="link-arrow">Mehr Infos</a></div>
+      </div>
+      <div class="c-card">
+        <div class="c-img" style="background:linear-gradient(135deg,#90a8c0 0%,#385878 100%);aspect-ratio:3/2;"></div>
+        <div class="c-body"><h3>E-Book „Proteinversorgung beim Pferd"</h3><a href="#" class="link-arrow">Mehr Infos</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="section section-sand">
+  <div class="gallery-intro">
+    <div class="section-label" style="justify-content:center;">Bildergalerie</div>
+    <h2>Erfolge durch bedarfsgerechte Ernährung</h2>
+    <p>Vorher-Nachher-Dokumentationen aus der Praxis — Ergebnisse, die für sich sprechen.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="g-card">
+      <div class="g-before-after">
+        <div style="background:linear-gradient(180deg,#8a7060,#6a5040);"></div>
+        <div style="background:linear-gradient(180deg,#b09080,#8a7060);"></div>
+      </div>
+      <div class="g-caption"><div class="horse">PRE, 16 Jahre</div><div class="diagnosis">Untergewicht</div></div>
+    </div>
+    <div class="g-card">
+      <div class="g-before-after">
+        <div style="background:linear-gradient(180deg,#706080,#504058);"></div>
+        <div style="background:linear-gradient(180deg,#907898,#706080);"></div>
+      </div>
+      <div class="g-caption"><div class="horse">Kaltblutmix, 11 Jahre</div><div class="diagnosis">Mauke</div></div>
+    </div>
+    <div class="g-card">
+      <div class="g-before-after">
+        <div style="background:linear-gradient(180deg,#607080,#405060);"></div>
+        <div style="background:linear-gradient(180deg,#8090a0,#607080);"></div>
+      </div>
+      <div class="g-caption"><div class="horse">Oldenburger, 8 Jahre</div><div class="diagnosis">PSSM2</div></div>
+    </div>
+    <div class="g-card">
+      <div class="g-before-after">
+        <div style="background:linear-gradient(180deg,#806850,#604830);"></div>
+        <div style="background:linear-gradient(180deg,#a08870,#806850);"></div>
+      </div>
+      <div class="g-caption"><div class="horse">Fjordpferd, 8 Jahre</div><div class="diagnosis">Schlechte Hufqualität</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section">
+  <div class="faq-layout">
+    <div class="faq-side">
+      <div class="section-label">FAQ</div>
+      <h2>Häufig gestellte Fragen</h2>
+      <p>Hier findest du Antworten auf die häufigsten Fragen zur Futterberatung.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Wie läuft eine Futterberatung ab?<div class="faq-icon">+</div></div></div>
+      <div class="faq-item"><div class="faq-q">Brauche ich eine Heuanalyse oder ein Blutbild für die Beratung?<div class="faq-icon">+</div></div></div>
+      <div class="faq-item"><div class="faq-q">Ich bin Einsteller:in — ist eine Beratung trotzdem sinnvoll?<div class="faq-icon">+</div></div></div>
+      <div class="faq-item"><div class="faq-q">Ich möchte nur getreidefrei/natürlich füttern, wird das berücksichtigt?<div class="faq-icon">+</div></div></div>
+      <div class="faq-item"><div class="faq-q">Wie führe ich eine Heuanalyse durch?<div class="faq-icon">+</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOG -->
+<div class="section section-sand">
+  <div class="blog-top">
+    <div>
+      <div class="section-label">Blog</div>
+      <h2>Pferdewissen zu Ernährungsthemen</h2>
+      <p>Regelmäßige Beiträge zu Pferdegesundheit und Fütterung.</p>
+    </div>
+    <a href="#" class="link-arrow" style="flex-shrink:0;">Alle Beiträge</a>
+  </div>
+  <div class="blog-grid">
+    <a href="#" class="b-card">
+      <div class="b-img" style="background:linear-gradient(135deg,#c8b890,#987040);aspect-ratio:16/10;"></div>
+      <div class="b-body"><div class="b-tag">futtermittel</div><h3>Heuanalyse in Österreich: 3 Labore im Vergleich</h3></div>
+    </a>
+    <a href="#" class="b-card">
+      <div class="b-img" style="background:linear-gradient(135deg,#98b878,#486030);aspect-ratio:16/10;"></div>
+      <div class="b-body"><div class="b-tag">futtermittel</div><h3>Wie viel gebe ich als Futterberaterin für Futter aus?</h3></div>
+    </a>
+    <a href="#" class="b-card">
+      <div class="b-img" style="background:linear-gradient(135deg,#a8b8c8,#506070);aspect-ratio:16/10;"></div>
+      <div class="b-body"><div class="b-tag">mineralfutter</div><h3>Was Mineralfutter nicht leisten kann</h3></div>
+    </a>
+    <a href="#" class="b-card">
+      <div class="b-img" style="background:linear-gradient(135deg,#d0b890,#806040);aspect-ratio:16/10;"></div>
+      <div class="b-body"><div class="b-tag">heuanalyse</div><h3>Zucker und Fruktan in der Heuanalyse: Warum du sie nicht addieren solltest</h3></div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Pferdestärken</div>
+    <div>Unabhängige Futterberatung für Pferde</div>
+  </div>
+  <div>
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+    <a href="#">Kontakt</a>
+  </div>
+</footer>
+
+</body>
+</html>
