@@ -285,6 +285,7 @@ body {
 /* Article images */
 .article-body img {
   width: 100%;
+  height: auto;
   border-radius: 6px;
   margin: 0.5em 0 1.5em;
   display: block;
@@ -617,6 +618,7 @@ a.btn-cta, a.btn-cta:hover { color: #fff; }
 
 .index-card-img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16/10;
   object-fit: cover;
   display: block;
