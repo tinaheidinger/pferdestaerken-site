@@ -3,8 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pferdestaerken – Redesign Preview</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <title>Pferdestärken – Unabhängige Futterberatung für Pferde</title>
+  <meta name="description" content="Wissenschaftliche, individuelle Futterberatung für Pferde von Dipl.-Ing. Kristina Heidinger.">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" as="image" href="assets/img/hero.jpg" fetchpriority="high">
+
+  <!-- Google Fonts (non-blocking) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"></noscript>
+
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -12,7 +23,7 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg">
-    <img src="assets/img/hero.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    <img width="1920" height="1280" src="assets/img/hero.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -31,7 +42,7 @@
   <div class="about-grid">
     <div class="about-img-wrap">
       <div class="about-img">
-        <img loading="lazy" src="assets/img/about-saphira.jpg" alt="Tina Heidinger mit Shire-Stute Saphira">
+        <img width="900" height="1200" loading="lazy" src="assets/img/about-saphira.jpg" alt="Tina Heidinger mit Shire-Stute Saphira">
       </div>
       <div class="about-img-accent"></div>
       <p class="about-img-caption">Mein bisher größtes Beratungspferd, Shire-Stute Saphira</p>
@@ -62,7 +73,7 @@
   </div>
   <div class="pricing-grid">
     <div class="p-card">
-      <img loading="lazy" class="p-img" src="assets/img/product_quickcheck.jpg" alt="Rations-QuickCheck">
+      <img width="1000" height="666" loading="lazy" class="p-img" src="assets/img/product_quickcheck.jpg" alt="Rations-QuickCheck">
       <div class="p-body">
         <div class="p-price">35 €</div>
         <div class="p-title">Rations-QuickCheck</div>
@@ -71,7 +82,7 @@
       </div>
     </div>
     <div class="p-card">
-      <img loading="lazy" class="p-img" src="assets/img/product_online.jpg" alt="Online-Beratung">
+      <img width="1000" height="666" loading="lazy" class="p-img" src="assets/img/product_online.jpg" alt="Online-Beratung">
       <div class="p-body">
         <div class="p-price">180 €</div>
         <div class="p-title">Online-Beratung</div>
@@ -80,7 +91,7 @@
       </div>
     </div>
     <div class="p-card">
-      <img loading="lazy" class="p-img" src="assets/img/product_vorort.jpg" alt="Vor-Ort-Beratung">
+      <img width="1000" height="666" loading="lazy" class="p-img" src="assets/img/product_vorort.jpg" alt="Vor-Ort-Beratung">
       <div class="p-body">
         <div class="p-price">230 € <sub>zzgl. Anfahrt</sub></div>
         <div class="p-title">Vor-Ort-Beratung</div>
@@ -102,15 +113,15 @@
     </div>
     <div class="courses-grid">
       <div class="c-card">
-        <img loading="lazy" class="c-img" src="assets/img/course-hufe.jpg" alt="Onlinekurs Hufe gesund füttern" style="aspect-ratio:1/1;object-fit:cover;object-position:center top;">
+        <img width="800" height="800" loading="lazy" class="c-img" src="assets/img/course-hufe.jpg" alt="Onlinekurs Hufe gesund füttern" style="aspect-ratio:1/1;object-fit:cover;object-position:center top;">
         <div class="c-body"><h3>Onlinekurs „Hufe gesund füttern"</h3><a href="https://pferdewissen.at/online-kurse/hufe-gesund-fuettern/" target="_blank" class="link-arrow">Mehr Infos</a></div>
       </div>
       <div class="c-card">
-        <img loading="lazy" class="c-img" src="assets/img/course-heuanalyse.jpg" alt="Onlinekurs Das 1x1 der Heuanalyse" style="aspect-ratio:1/1;object-fit:cover;">
+        <img width="800" height="800" loading="lazy" class="c-img" src="assets/img/course-heuanalyse.jpg" alt="Onlinekurs Das 1x1 der Heuanalyse" style="aspect-ratio:1/1;object-fit:cover;">
         <div class="c-body"><h3>Onlinekurs „Das 1×1 der Heuanalyse"</h3><a href="https://pferdewissen.at/online-kurse/heuanalyse/" target="_blank" class="link-arrow">Mehr Infos</a></div>
       </div>
       <div class="c-card">
-        <img loading="lazy" class="c-img" src="assets/img/course-ebook.jpg" alt="E-Book Proteinversorgung beim Pferd" style="aspect-ratio:1/1;object-fit:cover;object-position:center top;">
+        <img width="800" height="800" loading="lazy" class="c-img" src="assets/img/course-ebook.jpg" alt="E-Book Proteinversorgung beim Pferd" style="aspect-ratio:1/1;object-fit:cover;object-position:center top;">
         <div class="c-body"><h3>E-Book „Proteinversorgung beim Pferd"</h3><a href="https://pferdewissen.at/online-kurse/e-book-proteinversorgung/" target="_blank" class="link-arrow">Mehr Infos</a></div>
       </div>
     </div>
@@ -126,19 +137,19 @@
   </div>
   <div class="gallery-grid">
     <div class="g-card">
-      <img loading="lazy" class="g-img" src="assets/img/erfolge_3086.jpg" alt="PRE vor und nach der Beratung">
+      <img width="900" height="1200" loading="lazy" class="g-img" src="assets/img/erfolge_3086.jpg" alt="PRE vor und nach der Beratung">
       <div class="g-caption"><div class="horse">PRE, 16 Jahre</div><div class="diagnosis">Untergewicht</div></div>
     </div>
     <div class="g-card">
-      <img loading="lazy" class="g-img" src="assets/img/erfolge_3087.jpg" alt="Kaltblutmix vor und nach der Beratung">
+      <img width="900" height="1200" loading="lazy" class="g-img" src="assets/img/erfolge_3087.jpg" alt="Kaltblutmix vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Kaltblutmix, 11 Jahre</div><div class="diagnosis">Mauke</div></div>
     </div>
     <div class="g-card">
-      <img loading="lazy" class="g-img" src="assets/img/erfolge_3088.jpg" alt="Oldenburger vor und nach der Beratung">
+      <img width="900" height="1200" loading="lazy" class="g-img" src="assets/img/erfolge_3088.jpg" alt="Oldenburger vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Oldenburger, 8 Jahre</div><div class="diagnosis">PSSM2</div></div>
     </div>
     <div class="g-card">
-      <img loading="lazy" class="g-img" src="assets/img/erfolge_3089.jpg" alt="Fjordpferd vor und nach der Beratung">
+      <img width="900" height="1200" loading="lazy" class="g-img" src="assets/img/erfolge_3089.jpg" alt="Fjordpferd vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Fjordpferd, 8 Jahre</div><div class="diagnosis">Schlechte Hufqualität</div></div>
     </div>
   </div>
@@ -187,19 +198,19 @@
   </div>
   <div class="blog-grid">
     <a href="blog/heuanalyse-oesterreich.html" class="b-card">
-      <img loading="lazy" class="b-img" src="blog/img/heuanalyse-oesterreich-hero.jpg" alt="Heuanalyse in Österreich">
+      <img width="1920" height="1280" loading="lazy" class="b-img" src="blog/img/heuanalyse-oesterreich-hero.jpg" alt="Heuanalyse in Österreich">
       <div class="b-body"><div class="b-tag">Heuanalyse</div><h3>Heuanalyse in Österreich: 3 Labore im Vergleich</h3></div>
     </a>
     <a href="blog/futterkosten.html" class="b-card">
-      <img loading="lazy" class="b-img" src="blog/img/futterkosten-hero.jpg" alt="Futterkosten einer Futterberaterin">
+      <img width="1920" height="1280" loading="lazy" class="b-img" src="blog/img/futterkosten-hero.jpg" alt="Futterkosten einer Futterberaterin">
       <div class="b-body"><div class="b-tag">Futtermittel</div><h3>Wie viel gebe ich als Futterberaterin für Futter aus?</h3></div>
     </a>
     <a href="blog/mineralfutter.html" class="b-card">
-      <img loading="lazy" class="b-img" src="blog/img/mineralfutter-hero.jpg" alt="Was Mineralfutter nicht leisten kann">
+      <img width="1200" height="900" loading="lazy" class="b-img" src="blog/img/mineralfutter-hero.jpg" alt="Was Mineralfutter nicht leisten kann">
       <div class="b-body"><div class="b-tag">Mineralfutter</div><h3>Was Mineralfutter nicht leisten kann</h3></div>
     </a>
     <a href="blog/gesamtzucker.html" class="b-card">
-      <img loading="lazy" class="b-img" src="blog/img/gesamtzucker-hero.jpg" alt="Zucker und Fruktan in der Heuanalyse">
+      <img width="1920" height="1267" loading="lazy" class="b-img" src="blog/img/gesamtzucker-hero.jpg" alt="Zucker und Fruktan in der Heuanalyse">
       <div class="b-body"><div class="b-tag">Heuanalyse</div><h3>Zucker und Fruktan in der Heuanalyse: Warum du sie nicht addieren solltest</h3></div>
     </a>
   </div>
