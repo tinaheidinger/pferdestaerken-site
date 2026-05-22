@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum – pferdestaerken.at</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown-dark: #2E2620;
+      --brown-mid: #6B5744;
+      --amber: #B8832A;
+      --cream: #FDFAF6;
+      --sand: #F2EBE0;
+      --border: #E8E0D6;
+      --text-muted: #7A6B5E;
+      --white: #FFFFFF;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--white);
+      color: var(--brown-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .site-brand {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--brown-dark); text-decoration: none;
+    }
+    .back-link {
+      font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--amber); }
+
+    /* Content */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 40px 100px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      margin: 40px 0 14px;
+    }
+
+    h2:first-of-type { margin-top: 0; }
+
+    p {
+      font-size: 0.9375rem;
+      line-height: 1.85;
+      color: #3a2e25;
+      margin-bottom: 0.6em;
+    }
+
+    a { color: var(--amber); text-underline-offset: 3px; }
+    a:hover { color: var(--brown-mid); }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 44px 0;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: var(--text-muted);
+      max-width: 760px; margin: 0 auto;
+    }
+    .site-footer a { color: var(--text-muted); text-decoration: none; }
+    .site-footer a:hover { color: var(--amber); }
+    .footer-links { display: flex; gap: 20px; }
+
+    @media (max-width: 600px) {
+      .site-header { padding: 0 20px; }
+      .page-wrap { padding: 40px 20px 80px; }
+      h1 { font-size: 1.6rem; }
+      .site-footer { padding: 24px 20px; flex-direction: column; gap: 14px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="site-brand">pferdestärken</a>
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Startseite
+    </a>
+  </header>
+
+  <main class="page-wrap">
+
+    <h1>Impressum</h1>
+
+    <h2>Angaben gemäß § 5 ECG</h2>
+    <p>Dipl.-Ing. Kristina Heidinger<br>
+    Weiningergasse 3<br>
+    3040 Neulengbach<br>
+    Österreich</p>
+    <p>E-Mail: <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a></p>
+
+    <hr>
+
+    <h2>Gewerberechtliche Angaben</h2>
+    <p>Gewerbeart: Freies Gewerbe<br>
+    Gewerbewortlaut: Ausbildung, Betreuung, Pflege und Vermietung von Tieren sowie die Beratung hinsichtlich artgerechter Haltung und Ernährung von Tieren mit Ausnahme der den Tierärzten vorbehaltenen diagnostischen und therapeutischen Tätigkeiten<br>
+    Gewerbebehörde: Bezirkshauptmannschaft St. Pölten</p>
+
+    <hr>
+
+    <h2>Kammerzugehörigkeit</h2>
+    <p>Mitglied der Wirtschaftskammer Niederösterreich</p>
+
+    <hr>
+
+    <h2>Offenlegung gemäß § 25 Mediengesetz</h2>
+    <p>Medieninhaber: Dipl.-Ing. Kristina Heidinger, Weiningergasse 3, 3040 Neulengbach</p>
+    <p>Unternehmensgegenstand: Equine Futterberatung</p>
+    <p>Grundlegende Richtung: Informationen über Leistungsangebote und Fachbeiträge im Bereich der equinen Ernährungsberatung</p>
+
+    <hr>
+
+    <h2>Haftungsausschluss</h2>
+    <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Die Inhalte dieser Website stellen keine tierärztliche Beratung dar und ersetzen diese nicht.</p>
+    <p>Für externe Links, auf die diese Website verweist, übernehme ich keine Haftung. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+
+    <hr>
+
+    <h2>Urheberrecht</h2>
+    <p>Die auf dieser Website veröffentlichten Inhalte und Werke unterliegen dem österreichischen Urheberrecht. Vervielfältigung, Bearbeitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der ausdrücklichen schriftlichen Zustimmung von Dipl.-Ing. Kristina Heidinger.</p>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 pferdestaerken.at · Dipl.-Ing. Kristina Heidinger</span>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+  </footer>
+
+</body>
+</html>
