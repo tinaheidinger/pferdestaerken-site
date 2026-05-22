@@ -246,6 +246,14 @@ body {
   display: block;
 }
 
+.article-img-caption {
+  font-size: 0.825rem !important;
+  color: var(--text-muted) !important;
+  font-style: italic;
+  margin-top: -0.75em !important;
+  line-height: 1.6 !important;
+}
+
 /* Lab cards */
 .lab-card {
   border: 1px solid var(--border);
