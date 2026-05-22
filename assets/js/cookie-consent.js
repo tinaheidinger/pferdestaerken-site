@@ -26,43 +26,56 @@
     gtag('config', GA_ID, { anonymize_ip: true });
   }
 
-  /* ── Banner ── */
+  /* ── Styles ── */
   function injectStyles() {
     var css = [
-      '#pfs-cookie{position:fixed;bottom:0;left:0;right:0;z-index:9999;',
-      'background:#2E2620;padding:20px 40px;',
-      'box-shadow:0 -2px 20px rgba(0,0,0,0.18);',
-      'font-family:"Plus Jakarta Sans",sans-serif;}',
+      '@keyframes pfs-fade{to{opacity:1;}}',
+      '@keyframes pfs-pop{from{opacity:0;transform:translate(-50%,-50%) scale(0.96);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}',
 
-      '#pfs-cookie-inner{max-width:860px;margin:0 auto;',
-      'display:flex;align-items:center;gap:32px;}',
+      /* Backdrop: just dim, no blur */
+      '#pfs-cookie-backdrop{position:fixed;inset:0;z-index:9998;',
+      'background:rgba(20,14,8,0.5);',
+      'opacity:0;animation:pfs-fade 220ms ease-out forwards;}',
 
-      '#pfs-cookie p{font-size:0.875rem;line-height:1.6;',
-      'color:rgba(253,250,246,0.82);margin:0;flex:1;}',
-      '#pfs-cookie p a{color:#D4A44C;text-underline-offset:3px;}',
-      '#pfs-cookie strong{color:#FDFAF6;}',
+      /* Modal: centered popup */
+      '#pfs-cookie{position:fixed;top:50%;left:50%;z-index:9999;',
+      'transform:translate(-50%,-50%);',
+      'background:#fff;padding:36px 36px 28px;border-radius:10px;',
+      'width:calc(100% - 40px);max-width:420px;',
+      'box-shadow:0 20px 60px rgba(0,0,0,0.35);',
+      'font-family:"Plus Jakarta Sans",sans-serif;',
+      'animation:pfs-pop 240ms cubic-bezier(0.2,0.8,0.2,1) forwards;',
+      'text-align:center;}',
 
-      '#pfs-cookie-btns{display:flex;gap:10px;flex-shrink:0;}',
+      '#pfs-cookie h2{font-family:"Lora",serif;font-size:1.4rem;',
+      'font-weight:700;color:#2E2620;margin:0 0 10px;}',
 
-      '#pfs-accept{background:#B8832A;color:#fff;border:none;',
-      'padding:10px 22px;border-radius:4px;',
-      'font-family:inherit;font-size:0.875rem;font-weight:700;',
-      'cursor:pointer;transition:background 0.2s;}',
+      '#pfs-cookie p{font-size:0.9rem;line-height:1.55;',
+      'color:#6B5744;margin:0 0 24px;}',
+      '#pfs-cookie p a{color:#B8832A;text-underline-offset:3px;}',
+
+      /* Primary CTA: full-width, prominent */
+      '#pfs-accept{display:block;width:100%;',
+      'background:#B8832A;color:#fff;border:none;',
+      'padding:14px 24px;border-radius:5px;',
+      'font-family:inherit;font-size:0.95rem;font-weight:700;',
+      'cursor:pointer;transition:background 0.2s,transform 0.1s;',
+      'box-shadow:0 4px 14px rgba(184,131,42,0.35);',
+      'letter-spacing:0.01em;}',
       '#pfs-accept:hover{background:#D4A44C;}',
+      '#pfs-accept:active{transform:translateY(1px);}',
 
-      '#pfs-decline{background:transparent;',
-      'color:rgba(253,250,246,0.65);',
-      'border:1px solid rgba(253,250,246,0.22);',
-      'padding:10px 22px;border-radius:4px;',
-      'font-family:inherit;font-size:0.875rem;font-weight:600;',
-      'cursor:pointer;transition:all 0.2s;}',
-      '#pfs-decline:hover{color:#FDFAF6;border-color:rgba(253,250,246,0.5);}',
+      /* Secondary: subtle text link */
+      '#pfs-decline{display:block;margin:14px auto 0;',
+      'background:none;border:none;',
+      'color:#7A6B5E;font-family:inherit;font-size:0.825rem;',
+      'cursor:pointer;text-decoration:underline;',
+      'text-underline-offset:3px;}',
+      '#pfs-decline:hover{color:#2E2620;}',
 
       '@media(max-width:640px){',
-      '#pfs-cookie{padding:20px;}',
-      '#pfs-cookie-inner{flex-direction:column;align-items:flex-start;gap:16px;}',
-      '#pfs-cookie-btns{width:100%;}',
-      '#pfs-accept,#pfs-decline{flex:1;text-align:center;}}'
+      '#pfs-cookie{padding:30px 24px 24px;}',
+      '#pfs-cookie h2{font-size:1.25rem;}}'
     ].join('');
 
     var el = document.createElement('style');
@@ -76,30 +89,37 @@
       : 'datenschutz.html';
   }
 
+  /* ── Banner ── */
   function showBanner() {
     injectStyles();
+
+    var backdrop = document.createElement('div');
+    backdrop.id = 'pfs-cookie-backdrop';
+    document.body.appendChild(backdrop);
+
     var div = document.createElement('div');
     div.id = 'pfs-cookie';
+    div.setAttribute('role', 'dialog');
+    div.setAttribute('aria-labelledby', 'pfs-cookie-title');
     div.innerHTML =
-      '<div id="pfs-cookie-inner">' +
-        '<p>Diese Website verwendet Cookies. Mehr dazu in der ' +
-        '<a href="' + datenschutzUrl() + '">Datenschutzerklärung</a>.</p>' +
-        '<div id="pfs-cookie-btns">' +
-          '<button id="pfs-accept">Akzeptieren</button>' +
-          '<button id="pfs-decline">Ablehnen</button>' +
-        '</div>' +
-      '</div>';
+      '<h2 id="pfs-cookie-title">Cookies</h2>' +
+      '<p>Diese Website verwendet Cookies. Details in der ' +
+      '<a href="' + datenschutzUrl() + '">Datenschutzerklärung</a>.</p>' +
+      '<button id="pfs-accept">Akzeptieren</button>' +
+      '<button id="pfs-decline">Ablehnen</button>';
     document.body.appendChild(div);
+
+    function dismiss() { div.remove(); backdrop.remove(); }
 
     document.getElementById('pfs-accept').addEventListener('click', function () {
       setCookie(COOKIE_NAME, 'yes', 365);
-      div.remove();
+      dismiss();
       loadGA();
     });
 
     document.getElementById('pfs-decline').addEventListener('click', function () {
       setCookie(COOKIE_NAME, 'no', 365);
-      div.remove();
+      dismiss();
     });
   }
 
