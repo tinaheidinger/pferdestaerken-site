@@ -1,34 +1,37 @@
-name: Deploy to HubSpot
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          node-version: '18'
+          path: '.'
 
-      - name: Install HubSpot CLI
-        run: npm install -g @hubspot/cli@6.1.0
-
-      - name: Deploy custom.css to HubSpot
-        run: |
-          cat > hubspot.config.yml <<'HSCFG'
-          defaultPortal: pferdestaerken
-          portals:
-            - name: pferdestaerken
-              portalId: ${{ secrets.HUBSPOT_PORTAL_ID }}
-              authType: personalaccesskey
-              personalAccessKey: ${{ secrets.HUBSPOT_PERSONAL_ACCESS_KEY }}
-          HSCFG
-          hs upload custom.css custom.css
-          hs upload blog-custom.css blog-custom.css
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
