@@ -122,21 +122,23 @@ h1, h2, h3 { font-family: 'Lora', serif; line-height: 1.2; }
 }
 .p-card {
   background: var(--white); border: 1px solid var(--border);
-  border-radius: 3px; overflow: hidden; transition: box-shadow 0.25s; position: relative;
+  border-radius: 6px; transition: box-shadow 0.25s, transform 0.2s;
+  position: relative; display: flex; flex-direction: column;
+  padding-top: 4px; /* room for the accent stripe */
 }
-.p-card:hover { box-shadow: 0 8px 36px rgba(46,38,32,0.09); }
+.p-card::before {
+  content: ''; position: absolute; top: 0; left: 32px; right: 32px;
+  height: 3px; background: var(--amber); border-radius: 0 0 2px 2px;
+}
+.p-card:hover {
+  box-shadow: 0 10px 30px rgba(46,38,32,0.09);
+  transform: translateY(-3px);
+}
 .p-card.featured { border-color: var(--amber); }
-.p-badge {
-  position: absolute; top: 14px; right: 14px;
-  background: var(--amber); color: var(--white);
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+.p-body {
+  padding: 36px 36px 32px;
+  display: flex; flex-direction: column; flex: 1;
 }
-.p-img {
-  width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover;
-  background: var(--sand-dark); display: block;
-}
-.p-body { padding: 28px; }
 .p-title {
   font-family: 'Lora', serif;
   font-size: 1.55rem; font-weight: 700;
@@ -147,10 +149,15 @@ h1, h2, h3 { font-family: 'Lora', serif; line-height: 1.2; }
   font-size: 0.95rem; font-weight: 500;
   color: var(--text-muted);
   font-family: 'Plus Jakarta Sans', sans-serif;
-  margin: 0 0 16px;
+  margin: 0 0 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
 }
 .p-price sub { font-size: 0.8rem; font-weight: 400; color: var(--text-muted); vertical-align: baseline; }
-.p-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; }
+.p-desc {
+  font-size: 0.9rem; color: var(--text-muted); line-height: 1.75;
+  margin-bottom: 28px; flex: 1;
+}
 .btn-outline {
   display: block; text-align: center; border: 1.5px solid var(--brown-dark);
   color: var(--brown-dark); padding: 11px 20px; border-radius: 3px;
