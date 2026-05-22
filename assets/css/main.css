@@ -248,7 +248,7 @@ footer a:hover { color: var(--white); }
     grid-template-columns: 1fr;
     gap: 36px;
   }
-  .about-img { aspect-ratio: 3/2; }
+  .about-img { aspect-ratio: 3/4; }
   .about-img-accent { display: none; }
   .about-text h2 { font-size: 1.7rem; }
   .feature-grid { grid-template-columns: 1fr; }
