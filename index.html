@@ -11,7 +11,7 @@
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       color: #2E2620;
-      background: #FDFAF6;
+      background: var(--white);
       line-height: 1.6;
     }
 
@@ -78,8 +78,8 @@
     .btn-ghost:hover { color: var(--white); }
 
     /* ── Sections ── */
-    .section { padding: 100px 80px; }
-    .section-sand { background: var(--sand); }
+    .section { padding: 100px 80px; background: var(--white); }
+    .section-sand { background: var(--cream); }
     .section-label {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
@@ -98,7 +98,11 @@
     .about-img-wrap { position: relative; }
     .about-img {
       aspect-ratio: 4/5; border-radius: 3px; overflow: hidden;
-      background: linear-gradient(155deg, #c8b090 0%, #8a6040 100%);
+    }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+    .about-img-caption {
+      font-size: 0.78rem; color: var(--text-muted); font-style: italic;
+      margin-top: 10px; line-height: 1.5;
     }
     .about-img-accent {
       position: absolute; bottom: -14px; right: -14px;
@@ -162,6 +166,9 @@
     .btn-filled:hover { background: var(--amber-light); }
 
     /* ── Courses ── */
+    .courses-intro { text-align: center; margin-bottom: 44px; }
+    .courses-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 10px; }
+    .courses-intro p { color: var(--text-muted); max-width: 520px; line-height: 1.8; margin: 0 auto 20px; }
     .courses-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
     .courses-top h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 10px; }
     .courses-top p { color: var(--text-muted); max-width: 520px; line-height: 1.8; }
@@ -177,11 +184,11 @@
     /* ── Gallery ── */
     .gallery-intro { text-align: center; margin-bottom: 52px; }
     .gallery-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
-    .gallery-intro p { color: var(--text-muted); }
+    .gallery-intro p { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
     .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .g-card { border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
-    .g-before-after { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; aspect-ratio: 3/4; }
-    .g-caption { padding: 16px 18px; background: var(--white); }
+    .g-card { border-radius: 3px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; background: var(--white); }
+    .g-img { width: 100%; flex: 1; min-height: 200px; object-fit: cover; display: block; }
+    .g-caption { padding: 16px 18px; background: var(--white); flex-shrink: 0; }
     .g-caption .horse { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
     .g-caption .diagnosis { font-size: 0.95rem; font-weight: 600; color: var(--brown-dark); }
 
@@ -193,9 +200,8 @@
     .faq-item:first-child { border-top: 1px solid var(--border); }
     .faq-q { font-size: 0.975rem; font-weight: 600; color: var(--brown-dark); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
     .faq-icon {
-      width: 26px; height: 26px; border: 1.5px solid var(--amber); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      color: var(--amber); font-size: 1rem; line-height: 1;
+      width: 26px; height: 26px; flex-shrink: 0;
+      color: var(--amber);
       transition: transform 0.2s;
     }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
@@ -207,6 +213,9 @@
     .faq-q { cursor: pointer; }
 
     /* ── Blog ── */
+    .blog-intro { text-align: center; margin-bottom: 44px; }
+    .blog-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
+    .blog-intro p { color: var(--text-muted); max-width: 520px; margin: 0 auto 20px; }
     .blog-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
     .blog-top h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
     .blog-top p { color: var(--text-muted); max-width: 440px; }
@@ -216,7 +225,7 @@
       overflow: hidden; text-decoration: none; display: block; transition: box-shadow 0.2s;
     }
     .b-card:hover { box-shadow: 0 4px 20px rgba(46,38,32,0.07); }
-    .b-img { width: 100%; aspect-ratio: 16/10; display: block; }
+    .b-img { width: 100%; aspect-ratio: 16/10; display: block; object-fit: cover; }
     .b-body { padding: 18px 20px; }
     .b-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
     .b-card h3 { font-family: 'Lora', serif; font-size: 0.975rem; color: var(--brown-dark); line-height: 1.5; }
@@ -303,8 +312,11 @@
 <div class="section">
   <div class="about-grid">
     <div class="about-img-wrap">
-      <div class="about-img" style="background:linear-gradient(155deg,#c8b090 0%,#8a6040 100%);"></div>
+      <div class="about-img">
+        <img src="about-saphira.jpg" alt="Tina Heidinger mit Shire-Stute Saphira">
+      </div>
       <div class="about-img-accent"></div>
+      <p class="about-img-caption">Mein bisher größtes Beratungspferd, Shire-Stute Saphira</p>
     </div>
     <div class="about-text">
       <div class="section-label">Mein Angebot</div>
@@ -364,13 +376,11 @@
 <!-- COURSES -->
 <div class="section">
   <div class="container">
-    <div class="courses-top">
-      <div>
-        <div class="section-label">Kurse & E-Books</div>
-        <h2>Meine Kurse und E-Books</h2>
-        <p>Praxisnah aufbereitet, wissenschaftlich fundiert — für alle, die ihr Wissen rund um Pferdeernährung vertiefen möchten. Verfügbar auf der Akademie-Kursplattform.</p>
-      </div>
-      <a href="https://myablefy.com/s/akademie-pferdewissen?block_35871935_group_id=19666" target="_blank" class="link-arrow" style="flex-shrink:0; margin-bottom:4px;">Zur Kursplattform</a>
+    <div class="courses-intro">
+      <div class="section-label" style="justify-content:center;">Kurse &amp; E-Books</div>
+      <h2>Meine Kurse und E-Books</h2>
+      <p>Praxisnah aufbereitet, wissenschaftlich fundiert — für alle, die ihr Wissen rund um Pferdeernährung vertiefen möchten.</p>
+      <a href="https://myablefy.com/s/akademie-pferdewissen?block_35871935_group_id=19666" target="_blank" class="link-arrow" style="justify-content:center;">Zur Kursplattform</a>
     </div>
     <div class="courses-grid">
       <div class="c-card">
@@ -398,31 +408,19 @@
   </div>
   <div class="gallery-grid">
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#8a7060,#6a5040);"></div>
-        <div style="background:linear-gradient(180deg,#b09080,#8a7060);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3086.jpg" alt="PRE vor und nach der Beratung">
       <div class="g-caption"><div class="horse">PRE, 16 Jahre</div><div class="diagnosis">Untergewicht</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#706080,#504058);"></div>
-        <div style="background:linear-gradient(180deg,#907898,#706080);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3087.jpg" alt="Kaltblutmix vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Kaltblutmix, 11 Jahre</div><div class="diagnosis">Mauke</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#607080,#405060);"></div>
-        <div style="background:linear-gradient(180deg,#8090a0,#607080);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3088.jpg" alt="Oldenburger vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Oldenburger, 8 Jahre</div><div class="diagnosis">PSSM2</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#806850,#604830);"></div>
-        <div style="background:linear-gradient(180deg,#a08870,#806850);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3089.jpg" alt="Fjordpferd vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Fjordpferd, 8 Jahre</div><div class="diagnosis">Schlechte Hufqualität</div></div>
     </div>
   </div>
@@ -438,23 +436,23 @@
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="faq-q">Wie läuft eine Futterberatung ab?<div class="faq-icon">+</div></div>
+        <div class="faq-q">Wie läuft eine Futterberatung ab?<svg class="faq-icon" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="12.25" stroke="currentColor" stroke-width="1.5"/><path d="M13 8v10M8 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="faq-answer">Du füllst das Anmeldeformular aus und buchst direkt online. Ich frage dann gezielt Fotos und Videos deines Pferdes an. Auf dieser Basis erstelle ich einen ausführlichen Beratungsbericht mit vollständiger Rationsberechnung, konkretem Fütterungsplan und spezifischen Produktempfehlungen. Zum Abschluss besprechen wir alles gemeinsam per Telefon oder Videocall.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Brauche ich eine Heuanalyse oder ein Blutbild für die Beratung?<div class="faq-icon">+</div></div>
+        <div class="faq-q">Brauche ich eine Heuanalyse oder ein Blutbild für die Beratung?<svg class="faq-icon" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="12.25" stroke="currentColor" stroke-width="1.5"/><path d="M13 8v10M8 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="faq-answer">Du brauchst nicht zwingend einen bestimmten Laborbefund. Mit einer Heuanalyse ist die Rationsberechnung jedoch sehr viel genauer — nur wenn man weiß, wie das Grundfutter zusammengesetzt ist, kann man mit Sicherheit ableiten, ob gravierende Mängel oder Überschüsse in der Futterration vorhanden sind.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Ich bin Einsteller:in — ist eine Beratung trotzdem sinnvoll?<div class="faq-icon">+</div></div>
+        <div class="faq-q">Ich bin Einsteller:in — ist eine Beratung trotzdem sinnvoll?<svg class="faq-icon" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="12.25" stroke="currentColor" stroke-width="1.5"/><path d="M13 8v10M8 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="faq-answer">Eine Beratung berücksichtigt immer die Rahmenbedingungen. Sehr oft kann man auch aus einer suboptimalen Situation eine gute Verbesserung für das Pferd herausholen.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Ich möchte nur getreidefrei/natürlich füttern, wird das berücksichtigt?<div class="faq-icon">+</div></div>
+        <div class="faq-q">Ich möchte nur getreidefrei/natürlich füttern, wird das berücksichtigt?<svg class="faq-icon" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="12.25" stroke="currentColor" stroke-width="1.5"/><path d="M13 8v10M8 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="faq-answer">Ich nehme größtmögliche Rücksicht darauf, welche Futtermittel du bevorzugst. Wenn ich etwas definitiv nicht als zielführend erachte, weise ich dich darauf hin und begründe meine Einwände sachlich.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">Wie führe ich eine Heuanalyse durch?<div class="faq-icon">+</div></div>
+        <div class="faq-q">Wie führe ich eine Heuanalyse durch?<svg class="faq-icon" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="12.25" stroke="currentColor" stroke-width="1.5"/><path d="M13 8v10M8 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         <div class="faq-answer">Ich empfehle, die Heuprobe zur LUFA nach Deutschland zu schicken. Ich empfehle das „Inhaltsstoffpaket Heu" sowie das „Mineralstoff- und Spurenelementpaket" in Auftrag zu geben.</div>
       </div>
     </div>
@@ -463,30 +461,28 @@
 
 <!-- BLOG -->
 <div class="section section-sand">
-  <div class="blog-top">
-    <div>
-      <div class="section-label">Blog</div>
-      <h2>Pferdewissen zu Ernährungsthemen</h2>
-      <p>Regelmäßige Beiträge zu Pferdegesundheit und Fütterung.</p>
-    </div>
-    <a href="https://pferdestaerken.at/blog" target="_blank" class="link-arrow" style="flex-shrink:0;">Alle Beiträge</a>
+  <div class="blog-intro">
+    <div class="section-label" style="justify-content:center;">Blog</div>
+    <h2>Pferdewissen zu Ernährungsthemen</h2>
+    <p>Regelmäßige Beiträge zu Pferdegesundheit und Fütterung.</p>
+    <a href="https://pferdestaerken.at/blog" target="_blank" class="link-arrow" style="justify-content:center;">Alle Beiträge</a>
   </div>
   <div class="blog-grid">
-    <a href="https://pferdestaerken.at/blog/heuanalyse-oesterreich" target="_blank" class="b-card">
-      <div class="b-img" style="background:linear-gradient(135deg,#c8b890,#987040);aspect-ratio:16/10;"></div>
-      <div class="b-body"><div class="b-tag">futtermittel</div><h3>Heuanalyse in Österreich: 3 Labore im Vergleich</h3></div>
+    <a href="blog/heuanalyse-oesterreich.html" class="b-card">
+      <img class="b-img" src="blog/heuanalyse-oesterreich-hero.jpg" alt="Heuanalyse in Österreich">
+      <div class="b-body"><div class="b-tag">Heuanalyse</div><h3>Heuanalyse in Österreich: 3 Labore im Vergleich</h3></div>
     </a>
-    <a href="https://pferdestaerken.at/blog/futterkosten" target="_blank" class="b-card">
-      <div class="b-img" style="background:linear-gradient(135deg,#98b878,#486030);aspect-ratio:16/10;"></div>
-      <div class="b-body"><div class="b-tag">futtermittel</div><h3>Wie viel gebe ich als Futterberaterin für Futter aus?</h3></div>
+    <a href="blog/futterkosten.html" class="b-card">
+      <img class="b-img" src="blog/futterkosten-hero.jpg" alt="Futterkosten einer Futterberaterin">
+      <div class="b-body"><div class="b-tag">Futtermittel</div><h3>Wie viel gebe ich als Futterberaterin für Futter aus?</h3></div>
     </a>
-    <a href="https://pferdestaerken.at/blog/mineralfutter" target="_blank" class="b-card">
-      <div class="b-img" style="background:linear-gradient(135deg,#a8b8c8,#506070);aspect-ratio:16/10;"></div>
-      <div class="b-body"><div class="b-tag">mineralfutter</div><h3>Was Mineralfutter nicht leisten kann</h3></div>
+    <a href="blog/mineralfutter.html" class="b-card">
+      <img class="b-img" src="blog/mineralfutter-hero.jpg" alt="Was Mineralfutter nicht leisten kann">
+      <div class="b-body"><div class="b-tag">Mineralfutter</div><h3>Was Mineralfutter nicht leisten kann</h3></div>
     </a>
-    <a href="https://pferdestaerken.at/blog/gesamtzucker" target="_blank" class="b-card">
-      <div class="b-img" style="background:linear-gradient(135deg,#d0b890,#806040);aspect-ratio:16/10;"></div>
-      <div class="b-body"><div class="b-tag">heuanalyse</div><h3>Zucker und Fruktan in der Heuanalyse: Warum du sie nicht addieren solltest</h3></div>
+    <a href="blog/gesamtzucker.html" class="b-card">
+      <img class="b-img" src="blog/gesamtzucker-hero.jpg" alt="Zucker und Fruktan in der Heuanalyse">
+      <div class="b-body"><div class="b-tag">Heuanalyse</div><h3>Zucker und Fruktan in der Heuanalyse: Warum du sie nicht addieren solltest</h3></div>
     </a>
   </div>
 </div>
@@ -494,12 +490,12 @@
 <!-- FOOTER -->
 <footer>
   <div>
-    <div class="foot-logo">Pferdestärken</div>
-    <div>Unabhängige Futterberatung für Pferde</div>
+    <div class="foot-logo">pferdestaerken.at</div>
+    <div>Dipl.-Ing. Kristina Heidinger · Unabhängige Futterberatung für Pferde</div>
   </div>
   <div>
-    <a href="#">Impressum</a>
-    <a href="#">Datenschutz</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
   </div>
 </footer>
 
@@ -513,5 +509,6 @@
     });
   });
 </script>
+  <script src="cookie-consent.js"></script>
 </body>
 </html>
