@@ -236,6 +236,47 @@ body {
   text-underline-offset: 3px;
 }
 
+.article-body ol {
+  margin: 0 0 1.5em 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ol-counter;
+}
+
+.article-body ol li {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #3a2e25;
+  padding: 0 0 0.4em 2em;
+  position: relative;
+  counter-increment: ol-counter;
+}
+
+.article-body ol li::before {
+  content: counter(ol-counter) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--amber);
+  font-size: 0.9rem;
+}
+
+.article-body blockquote {
+  border-left: 3px solid var(--amber);
+  margin: 1.5em 0;
+  padding: 14px 20px;
+  background: #fdf2e1;
+  border-radius: 0 6px 6px 0;
+}
+
+.article-body blockquote p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+}
+
 .article-body a:hover { color: var(--amber-light); }
 
 /* Article images */
