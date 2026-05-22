@@ -179,9 +179,9 @@
     .gallery-intro h2 { font-size: 2.1rem; color: var(--brown-dark); margin-bottom: 8px; }
     .gallery-intro p { color: var(--text-muted); }
     .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .g-card { border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
-    .g-before-after { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; aspect-ratio: 3/4; }
-    .g-caption { padding: 16px 18px; background: var(--white); }
+    .g-card { border-radius: 3px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; background: var(--white); }
+    .g-img { width: 100%; flex: 1; min-height: 200px; object-fit: cover; display: block; }
+    .g-caption { padding: 16px 18px; background: var(--white); flex-shrink: 0; }
     .g-caption .horse { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
     .g-caption .diagnosis { font-size: 0.95rem; font-weight: 600; color: var(--brown-dark); }
 
@@ -398,31 +398,19 @@
   </div>
   <div class="gallery-grid">
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#8a7060,#6a5040);"></div>
-        <div style="background:linear-gradient(180deg,#b09080,#8a7060);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3086.jpg" alt="PRE vor und nach der Beratung">
       <div class="g-caption"><div class="horse">PRE, 16 Jahre</div><div class="diagnosis">Untergewicht</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#706080,#504058);"></div>
-        <div style="background:linear-gradient(180deg,#907898,#706080);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3087.jpg" alt="Kaltblutmix vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Kaltblutmix, 11 Jahre</div><div class="diagnosis">Mauke</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#607080,#405060);"></div>
-        <div style="background:linear-gradient(180deg,#8090a0,#607080);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3088.jpg" alt="Oldenburger vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Oldenburger, 8 Jahre</div><div class="diagnosis">PSSM2</div></div>
     </div>
     <div class="g-card">
-      <div class="g-before-after">
-        <div style="background:linear-gradient(180deg,#806850,#604830);"></div>
-        <div style="background:linear-gradient(180deg,#a08870,#806850);"></div>
-      </div>
+      <img class="g-img" src="erfolge_3089.jpg" alt="Fjordpferd vor und nach der Beratung">
       <div class="g-caption"><div class="horse">Fjordpferd, 8 Jahre</div><div class="diagnosis">Schlechte Hufqualität</div></div>
     </div>
   </div>
