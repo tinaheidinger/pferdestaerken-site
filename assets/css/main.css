@@ -251,8 +251,22 @@ h1, h2, h3 { font-family: 'Lora', serif; line-height: 1.2; }
 .b-card:hover { box-shadow: 0 4px 20px rgba(46,38,32,0.07); }
 .b-img { width: 100%; height: auto; aspect-ratio: 16/10; display: block; object-fit: cover; }
 .b-body { padding: 18px 20px; }
-.b-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
-.b-card h3 { font-family: 'Lora', serif; font-size: 0.975rem; color: var(--brown-dark); line-height: 1.5; }
+.b-tag {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 8px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+.b-card h3 {
+  font-family: 'Lora', serif;
+  font-size: 0.875rem;
+  color: var(--brown-dark);
+  line-height: 1.45;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
 
 /* ── Footer ── */
 footer {
