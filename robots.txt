@@ -1,6 +1,14 @@
 User-agent: *
 Allow: /
+
+# Legal pages — keep out of search results (also have noindex meta)
+Disallow: /impressum
 Disallow: /impressum.html
+Disallow: /datenschutz
 Disallow: /datenschutz.html
+
+# Internal landing pages — orphan, only linked from emails to customers
+Disallow: /fotos
+Disallow: /fotos.html
 
 Sitemap: https://pferdestaerken.at/sitemap.xml

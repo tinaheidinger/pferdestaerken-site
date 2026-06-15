@@ -1,0 +1,3 @@
+Contact: mailto:beratung@pferdestaerken.at
+Expires: 2027-06-12T00:00:00.000Z
+Preferred-Languages: de, en
