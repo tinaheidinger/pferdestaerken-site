@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://pferdestaerken.at/terminbuchung">
+  <title>Terminbuchung – pferdestaerken.at</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/favicon/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/favicon-180.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script defer src="/assets/js/components.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown-dark: #2E2620;
+      --brown-mid: #6B5744;
+      --amber: #B8832A;
+      --cream: #FDFAF6;
+      --sand: #F2EBE0;
+      --border: #E8E0D6;
+      --text-muted: #7A6B5E;
+      --white: #FFFFFF;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--white);
+      color: var(--brown-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Reserve space for JS-injected header */
+    div[data-include="header"] { display: block; height: 56px; border-bottom: 1px solid var(--border); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .site-brand {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--brown-dark); text-decoration: none;
+    }
+    .back-link {
+      font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--amber); }
+
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 64px 40px 100px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 20px;
+    }
+
+    .intro {
+      font-size: 0.9375rem;
+      line-height: 1.85;
+      color: #3a2e25;
+      margin-bottom: 40px;
+      max-width: 680px;
+    }
+
+    .intro a {
+      color: var(--amber);
+      text-underline-offset: 3px;
+    }
+    .intro a:hover { color: var(--brown-mid); }
+
+    .calendar-container {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--cream);
+    }
+
+    .calendar-container iframe {
+      display: block;
+      width: 100%;
+      height: 700px;
+      border: 0;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: var(--text-muted);
+      max-width: 860px; margin: 0 auto;
+    }
+    .site-footer a { color: var(--text-muted); text-decoration: none; }
+    .site-footer a:hover { color: var(--amber); }
+    .footer-links { display: flex; gap: 20px; }
+
+    @media (max-width: 600px) {
+      .site-header { padding: 0 20px; }
+      .page-wrap { padding: 40px 20px 80px; }
+      h1 { font-size: 1.6rem; }
+      .calendar-container iframe { height: 600px; }
+      .site-footer { padding: 24px 20px; flex-direction: column; gap: 14px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div data-include="header" data-back-href="/" data-back-label="Startseite"></div>
+
+  <main class="page-wrap">
+
+    <h1>Terminbuchung</h1>
+
+    <p class="intro">
+      Auf dieser Buchungsseite kannst du einen Telefontermin zur Nachbesprechung deiner Futterberatung buchen.
+      Es sind immer Zeitslots für maximal 15 Tage im Voraus verfügbar. Solltest du keinen passenden Slot finden,
+      dann melde dich einfach unter <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a> –
+      ich finde sicherlich eine passende Lösung! Bei der Reservierung wirst du vom System gebeten, deine
+      Telefonnummer anzugeben. Ich rufe dich dann zur vereinbarten Zeit an.
+    </p>
+
+    <div class="calendar-container">
+      <!-- Google Calendar Appointment Scheduling begin -->
+      <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1HwVZRafGU8ssGc1RSD4HXWAtxJjkBfkr33PSOKI70aAhb2i6EFsi9jzhsBFLYJ4-4tYwll7pI?gv=true" frameborder="0" allowfullscreen></iframe>
+      <!-- end Google Calendar Appointment Scheduling -->
+    </div>
+
+  </main>
+
+  <div data-include="footer"></div>
+
+  <script src="/assets/js/cookie-consent.js"></script>
+</body>
+</html>
