@@ -169,6 +169,7 @@
     .unterlagen-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
     .unterlagen-item { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: var(--brown-dark); }
     .unterlagen-item svg { flex-shrink: 0; color: var(--amber); }
+    .unterlagen-empty { font-size: 0.875rem; color: var(--brown-mid, #9e8060); font-style: italic; margin-top: 4px; }
     .befund-full { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 20px 22px; grid-column: 1 / -1; }
 
     /* Ration */
@@ -202,9 +203,11 @@
     /* Table */
     .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-top: 8px; }
     /* Nährstoffbilanz sections */
-    .nb-section { margin-bottom: 22px; }
+    .nb-section { margin-bottom: 22px; margin-top: 28px; }
     .nb-section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--amber); margin-bottom: 6px; }
     .nb-subtitle { font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 18px; }
+    .nb-notice { display: flex; align-items: flex-start; gap: 10px; background: #fef8ec; border: 1px solid #f0d080; border-radius: 8px; padding: 12px 16px; margin-bottom: 18px; font-size: 0.84rem; color: #7a5800; line-height: 1.55; }
+    .nb-notice svg { flex-shrink: 0; margin-top: 1px; color: #c89000; }
     .nb-unit { font-size: 0.75em; color: var(--text-muted); font-weight: 400; }
     .nb-badge { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
     .nb-badge.nb-ok     { background: #e6f4ec; color: #2d7a44; }
