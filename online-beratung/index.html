@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://pferdestaerken.at/online-beratung">
+  <title>Online-Beratung anfragen – pferdestaerken.at</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://challenges.cloudflare.com https://crm.pferdestaerken.at; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicon/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/img/favicon/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/favicon-180.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script defer src="/assets/js/components.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown-dark: #2E2620;
+      --brown-mid: #6B5744;
+      --amber: #B8832A;
+      --amber-light: #D4A44C;
+      --cream: #FDFAF6;
+      --sand: #F2EBE0;
+      --border: #E8E0D6;
+      --text-muted: #7A6B5E;
+      --white: #FFFFFF;
+      --required: #A8402F;
+      --error-bg: #FBEAE7;
+      --error-border: #E4B7AC;
+      --error-text: #8C3323;
+      --success-bg: #EDF5EE;
+      --success-border: #BFDCC3;
+      --success-text: #2B5E36;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--sand);
+      color: var(--brown-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    div[data-include="header"] { display: block; height: 56px; border-bottom: 1px solid var(--border); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .site-brand {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--brown-dark); text-decoration: none;
+    }
+    .back-link {
+      font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--amber); }
+
+    .page-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 48px 20px 100px;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 14px;
+    }
+
+    .lede {
+      font-size: 0.9375rem;
+      line-height: 1.85;
+      color: #3a2e25;
+      margin-bottom: 28px;
+    }
+    .lede a { color: var(--amber); text-underline-offset: 3px; }
+    .lede a:hover { color: var(--brown-mid); }
+
+    .intro-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 26px;
+      margin-bottom: 28px;
+    }
+    .intro-card h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      margin-top: 18px;
+    }
+    .intro-card h2:first-child { margin-top: 0; }
+    .intro-card p {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      color: var(--brown-mid);
+    }
+    .intro-card ul {
+      margin: 8px 0 0 20px;
+      font-size: 0.875rem;
+      line-height: 1.8;
+      color: var(--brown-mid);
+    }
+    .price-tag {
+      display: inline-block;
+      background: var(--sand);
+      border: 1px solid var(--border);
+      color: var(--brown-dark);
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .required-legend {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .required-legend .required-mark { color: var(--required); }
+
+    .form-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px 26px 8px;
+      margin-bottom: 20px;
+    }
+    .form-section h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--brown-dark);
+      margin-bottom: 4px;
+    }
+    .section-hint {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .section-hint a { color: var(--amber); }
+
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--brown-dark);
+      margin-bottom: 6px;
+    }
+    .field .required-mark { color: var(--required); margin-left: 2px; }
+    .field .field-help {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--cream);
+      color: var(--brown-dark);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(184,131,42,0.15);
+      background: var(--white);
+    }
+    input[aria-invalid="true"], textarea[aria-invalid="true"] {
+      border-color: var(--error-border);
+      background: #FFFBFA;
+    }
+
+    .error-text {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--error-text);
+      margin-top: 6px;
+    }
+    .error-text.visible { display: block; }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .radio-option, .checkbox-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--brown-dark);
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--cream);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+    /* Radio rows are always single-line, so center them; checkbox rows wrap
+       to multiple lines (consent text), where top-aligning the box against
+       the first line reads better. The inherited line-height: 1.5 adds
+       leading below the glyphs that a single text line doesn't need, which
+       visually drags the label text below the circle's true center even
+       with align-items: center — tighten it back down for radio rows only. */
+    .radio-option { align-items: center; line-height: 1; }
+    .radio-option:has(input:checked), .checkbox-option:has(input:checked) {
+      border-color: var(--amber);
+      background: #FBF3E6;
+    }
+    .radio-option input, .checkbox-option input {
+      margin-top: 2px;
+      width: 17px; height: 17px;
+      accent-color: var(--amber);
+      flex-shrink: 0;
+    }
+    /* Measured empirically: even with align-items: center and a tight
+       line-height, the native radio dot renders ~3px above the visual
+       center of adjacent text (a browser widget-painting quirk, not a
+       line-height/flex issue — confirmed via getBoundingClientRect on both
+       the input and a Range over the label text). margin-top can't fix
+       this: it grows the flex item's own margin box, shifting the very
+       alignment baseline it's being centered against, which cancels itself
+       out. Relative positioning nudges the paint position only, after
+       layout, so it isn't self-canceling. */
+    .radio-option input { margin-top: 0; position: relative; top: 3px; }
+
+    /* Honeypot: kept in normal flow (not display:none) but visually and
+       programmatically hidden, so scripted fillers that skip display:none
+       fields still catch it. */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .turnstile-wrap { margin: 22px 0; min-height: 65px; }
+    .turnstile-note {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--error-text);
+      margin-top: 8px;
+    }
+    .turnstile-note.visible { display: block; }
+
+    .form-banner {
+      display: none;
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .form-banner.visible { display: block; }
+    .form-banner.error {
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
+      color: var(--error-text);
+    }
+    .form-banner.success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
+    }
+
+    .draft-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: none;
+    }
+    .draft-note.visible { display: block; }
+
+    .form-actions {
+      padding: 8px 0 30px;
+      text-align: center;
+    }
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--amber);
+      color: var(--white);
+      border: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 15px 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      min-height: 48px;
+      width: 100%;
+      max-width: 340px;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--amber-light); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .success-panel {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .success-panel.visible { display: block; }
+    .success-panel h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+    .success-panel p {
+      font-size: 0.9rem;
+      color: var(--brown-mid);
+      line-height: 1.7;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: var(--text-muted);
+      max-width: 700px; margin: 0 auto;
+    }
+    .site-footer a { color: var(--text-muted); text-decoration: none; }
+    .site-footer a:hover { color: var(--amber); }
+    .footer-links { display: flex; gap: 20px; }
+
+    @media (max-width: 600px) {
+      .site-header { padding: 0 20px; }
+      .page-wrap { padding: 32px 16px 80px; }
+      h1 { font-size: 1.55rem; }
+      .form-section { padding: 20px 18px 6px; border-radius: 10px; }
+      .intro-card { padding: 20px; }
+      .site-footer { padding: 24px 20px; flex-direction: column; gap: 14px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div data-include="header" data-back-href="/" data-back-label="Startseite"></div>
+
+  <main class="page-wrap">
+
+    <h1>Online-Beratung anfragen</h1>
+    <p class="lede">
+      Schön, dass du dich für eine Online-Beratung entschieden hast! Lies dir bitte kurz durch, was dich
+      erwartet — damit wir beide gut vorbereitet starten können.
+    </p>
+
+    <div class="intro-card">
+      <h2>Was ist die Online-Beratung?</h2>
+      <p>
+        Die Online-Beratung ist meine ausführliche Einzelberatung — individuell, wissenschaftlich fundiert
+        und ganz auf dein Pferd zugeschnitten. Du füllst dieses Formular aus, ich sichte deine Angaben, alle
+        Befunde und die Fotos und Videos, die ich anfordere. Dann erstelle ich einen ausführlichen
+        Beratungsbericht mit vollständiger Rationsberechnung, konkretem Fütterungsplan und klaren
+        Produktempfehlungen. Zum Abschluss besprechen wir alles gemeinsam — per Telefon oder Videocall, ganz
+        wie du magst.
+      </p>
+
+      <h2>Was bekommst du am Ende?</h2>
+      <ul>
+        <li>Einen detaillierten Beratungsbericht als PDF</li>
+        <li>Eine vollständige Rationsberechnung mit Nährstoffbilanz</li>
+        <li>Einen konkreten Fütterungsplan und klare Produktempfehlungen</li>
+        <li>Eine telefonische oder digitale Nachbesprechung</li>
+      </ul>
+
+      <h2>Was kostet die Online-Beratung?</h2>
+      <p>
+        <span class="price-tag">180 €</span><br>
+        Nach dem Absenden dieses Formulars erhältst du innerhalb von 24 Stunden eine Bestätigung mit
+        Zahlungsanweisung. Sobald die Zahlung eingegangen ist, geht's los.
+      </p>
+
+      <h2>Hast du vorher den QuickCheck gemacht?</h2>
+      <p>
+        Wenn du innerhalb der letzten 3 Monate einen Rations-QuickCheck bei mir gebucht hast, werden die
+        35 € vom Honorar abgezogen — schreib mir das einfach kurz bei den Vorerkrankungen/Besonderheiten
+        weiter unten, ich ziehe es dann bei der Rechnung ab.
+      </p>
+    </div>
+
+    <div id="form-banner" class="form-banner" role="alert"></div>
+    <p id="draft-note" class="draft-note">Ein zuvor begonnener Entwurf wurde wiederhergestellt.</p>
+
+    <form id="intake-form" novalidate>
+
+      <p class="required-legend"><span class="required-mark">*</span> Pflichtfeld</p>
+
+      <section class="form-section">
+        <h2>Deine Kontaktdaten</h2>
+        <p class="section-hint">Zur Rechnungsstellung und Übermittlung des Berichts.</p>
+
+        <div class="field">
+          <label for="f-first-name">Vorname<span class="required-mark">*</span></label>
+          <input type="text" id="f-first-name" name="firstName" maxlength="120" required autocomplete="given-name">
+          <p class="error-text" id="err-first-name">Bitte gib deinen Vornamen an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-last-name">Nachname<span class="required-mark">*</span></label>
+          <input type="text" id="f-last-name" name="lastName" maxlength="120" required autocomplete="family-name">
+          <p class="error-text" id="err-last-name">Bitte gib deinen Nachnamen an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-email">E-Mail-Adresse<span class="required-mark">*</span></label>
+          <input type="email" id="f-email" name="email" maxlength="254" required autocomplete="email" inputmode="email">
+          <p class="error-text" id="err-email">Bitte gib eine gültige E-Mail-Adresse an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-address">Straße, Hausnummer, PLZ, Ort<span class="required-mark">*</span></label>
+          <input type="text" id="f-address" name="address" maxlength="300" required autocomplete="street-address">
+          <p class="error-text" id="err-address">Bitte gib deine Adresse an.</p>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Dein Pferd</h2>
+
+        <div class="field">
+          <label for="f-horse-name">Name<span class="required-mark">*</span></label>
+          <input type="text" id="f-horse-name" name="horseName" maxlength="120" required>
+          <p class="error-text" id="err-horse-name">Bitte gib den Namen deines Pferdes an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-horse-breed">Rasse<span class="required-mark">*</span></label>
+          <input type="text" id="f-horse-breed" name="horseBreed" maxlength="120" required>
+          <p class="error-text" id="err-horse-breed">Bitte gib die Rasse an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-horse-age">Alter<span class="required-mark">*</span></label>
+          <input type="text" id="f-horse-age" name="horseAge" maxlength="60" required>
+          <p class="error-text" id="err-horse-age">Bitte gib das Alter an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-horse-height">Stockmaß<span class="required-mark">*</span></label>
+          <input type="text" id="f-horse-height" name="horseHeight" maxlength="60" required placeholder="z. B. 168 cm">
+          <p class="error-text" id="err-horse-height">Bitte gib das Stockmaß an.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-horse-weight">Körpergewicht<span class="required-mark">*</span></label>
+          <input type="text" id="f-horse-weight" name="horseWeight" maxlength="60" required placeholder="z. B. 580 kg">
+          <p class="error-text" id="err-horse-weight">Bitte gib das Körpergewicht an.</p>
+        </div>
+
+        <fieldset class="field" style="border:none; padding:0;">
+          <legend style="font-size:0.85rem; font-weight:600; color:var(--brown-dark); margin-bottom:6px;">Geschlecht<span class="required-mark">*</span></legend>
+          <div class="radio-group" role="radiogroup" aria-required="true">
+            <label class="radio-option"><input type="radio" name="horseSex" value="Stute" required> Stute</label>
+            <label class="radio-option"><input type="radio" name="horseSex" value="Wallach" required> Wallach</label>
+            <label class="radio-option"><input type="radio" name="horseSex" value="Hengst" required> Hengst</label>
+          </div>
+          <p class="error-text" id="err-horse-sex">Bitte wähle eine Option.</p>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-horse-keeping">Haltungsform<span class="required-mark">*</span></label>
+          <textarea id="f-horse-keeping" name="horseKeeping" maxlength="1000" required></textarea>
+          <p class="error-text" id="err-horse-keeping">Bitte beschreibe die Haltungsform.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-training">Wie sieht das Training in einer durchschnittlichen Woche aus?<span class="required-mark">*</span></label>
+          <p class="field-help">Denke an eine Woche mit eher schlechtem Wetter.</p>
+          <textarea id="f-training" name="training" maxlength="1000" required></textarea>
+          <p class="error-text" id="err-training">Bitte beschreibe das Training.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-pre-existing">Vorerkrankungen und sonstige Besonderheiten<span class="required-mark">*</span></label>
+          <p class="field-help">
+            Berichte gerne sehr ausführlich. Befunde wie z. B. ein Blutbild kannst du, falls vorhanden, gerne
+            per E-Mail an <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a> schicken.
+            Falls es keine gibt, schreib einfach "keine".
+          </p>
+          <textarea id="f-pre-existing" name="preExisting" maxlength="4000" required></textarea>
+          <p class="error-text" id="err-pre-existing">Bitte fülle dieses Feld aus (schreib "keine", falls nicht zutreffend).</p>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Dein Heu</h2>
+        <p class="section-hint">
+          Schicke deine Heuanalyse, falls vorhanden, bitte per E-Mail an
+          <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a>.
+        </p>
+
+        <div class="field">
+          <label for="f-hay">Wie viel kg Heu frisst dein Pferd pro Tag?<span class="required-mark">*</span></label>
+          <input type="text" id="f-hay" name="hayKg" maxlength="30" required placeholder="z. B. 6 kg">
+          <p class="error-text" id="err-hay">Bitte gib die Heumenge an.</p>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Weitere Futtermittel</h2>
+        <p class="section-hint">
+          Bitte alle Futtermittel eintragen, die dein Pferd regelmäßig bekommt — inkl. Ergänzungsfutter,
+          Mineralfutter, Pellets, Mash, Leckstein etc. — mit der Menge in Gramm (nicht "Handvoll", "1
+          Schaufel" etc.).
+        </p>
+
+        <div class="field">
+          <label for="f-feed">Futtermittel<span class="required-mark">*</span></label>
+          <textarea id="f-feed" name="feed" maxlength="3000" required></textarea>
+          <p class="error-text" id="err-feed">Bitte fülle dieses Feld aus (schreib "keine", falls nicht zutreffend).</p>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Buchung &amp; Bezahlung</h2>
+        <p class="section-hint">
+          Fast geschafft! Die Online-Beratung kostet 180 €. Nach dem Absenden dieses Formulars erhältst du
+          innerhalb von 24 Stunden eine Buchungsbestätigung mit der Zahlungsanweisung. Dein Ergebnis bekommst
+          du nach Zahlungseingang in der Regel innerhalb von 1–3 Werktagen.
+        </p>
+
+        <div class="checkbox-group">
+          <label class="checkbox-option">
+            <input type="checkbox" name="consentPaid" required>
+            Hiermit beauftrage ich eine kostenpflichtige Dienstleistung (Online-Beratung für 180 €).
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="consentPrivacy" required>
+            Ich stimme der <a href="/datenschutz/" target="_blank">Verarbeitung meiner Daten gemäß DSGVO</a> zu.
+          </label>
+        </div>
+        <p class="error-text" id="err-consent">Bitte bestätige beide Punkte, um fortzufahren.</p>
+      </section>
+
+      <!-- Honeypot: real visitors never see or fill this. Server-side is the
+           authoritative check; this is best-effort for JS-executing bots. -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="f-hp-website">Website</label>
+        <input type="text" id="f-hp-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="turnstile-wrap">
+        <div id="turnstile-widget"></div>
+        <p class="turnstile-note" id="turnstile-note">
+          Sicherheitsprüfung konnte nicht geladen werden. Bitte lade die Seite neu (ggf. Werbeblocker kurz
+          deaktivieren).
+        </p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" id="submit-btn">Anfrage absenden</button>
+      </div>
+    </form>
+
+    <div class="success-panel" id="success-panel">
+      <h2>Danke, deine Anfrage ist da!</h2>
+      <p>
+        Ich melde mich innerhalb von 24 Stunden mit einer Buchungsbestätigung und der Zahlungsanweisung bei
+        dir. Bis dahin: Fotos, Videos, Befunde und eine Heuanalyse (falls vorhanden) gerne schon per E-Mail
+        an <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a>.
+      </p>
+    </div>
+
+  </main>
+
+  <div data-include="footer"></div>
+
+  <script src="/assets/js/cookie-consent.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="/online-beratung/form.js"></script>
+</body>
+</html>
