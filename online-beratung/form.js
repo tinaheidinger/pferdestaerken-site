@@ -1,10 +1,9 @@
 (function () {
   'use strict';
 
-  // TODO before go-live: swap for the real production sitekey. This is
-  // Cloudflare's documented "always passes" test key, safe for local/dev
-  // preview only.
-  var TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+  // Production Turnstile sitekey (Cloudflare dashboard: pferdestaerken-online-beratung
+  // widget, scoped to pferdestaerken.at).
+  var TURNSTILE_SITE_KEY = '0x4AAAAAAD0fgjcA8S-mCmbt';
   var INTAKE_ENDPOINT = 'https://crm.pferdestaerken.at/api/public/intake';
   var DRAFT_KEY = 'pfs_online_beratung_draft_v1';
   var DRAFT_MAX_AGE_MS = 48 * 60 * 60 * 1000;
