@@ -1,1 +1,6 @@
 hubspot.config.yml
+
+# Beratungsakte: Klartext und PIN nur lokal
+beratung/*/report.html
+beratung/*/.pin
+beratung/.DS_Store
