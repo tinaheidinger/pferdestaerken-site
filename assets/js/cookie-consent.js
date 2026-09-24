@@ -84,9 +84,26 @@
   }
 
   function datenschutzUrl() {
-    return window.location.pathname.indexOf('/blog/') !== -1
-      ? '../datenschutz.html'
-      : 'datenschutz.html';
+    return '/datenschutz/';
+  }
+
+  /* ── Withdraw consent: drop the consent cookie and GA's own cookies ── */
+  function deleteCookie(name) {
+    var past = ';expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    document.cookie = name + '=' + past;
+    // GA sets its cookies on the registrable domain (.pferdestaerken.at).
+    document.cookie = name + '=' + past + ';domain=.' + window.location.hostname.replace(/^www\./, '');
+  }
+
+  function resetConsent() {
+    deleteCookie(COOKIE_NAME);
+    document.cookie.split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (name === '_ga' || name.indexOf('_ga_') === 0) deleteCookie(name);
+    });
+    // Stops an already-loaded gtag from sending further hits on this page.
+    window['ga-disable-' + GA_ID] = true;
+    if (!document.getElementById('pfs-cookie')) showBanner();
   }
 
   /* ── Banner ── */
@@ -114,7 +131,9 @@
     document.getElementById('pfs-accept').addEventListener('click', function () {
       setCookie(COOKIE_NAME, 'yes', 365);
       dismiss();
-      loadGA();
+      window['ga-disable-' + GA_ID] = false;
+      if (window.gtag) window.gtag('config', GA_ID, { anonymize_ip: true });
+      else loadGA();
     });
 
     document.getElementById('pfs-decline').addEventListener('click', function () {
@@ -124,6 +143,14 @@
   }
 
   /* ── Init ── */
+  // Any element with data-cookie-settings (e.g. on /datenschutz/) reopens the banner.
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-cookie-settings]');
+    if (!t) return;
+    e.preventDefault();
+    resetConsent();
+  });
+
   var consent = getCookie(COOKIE_NAME);
   if (consent === 'yes') {
     loadGA();

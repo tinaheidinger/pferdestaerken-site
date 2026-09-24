@@ -5,17 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="https://pferdestaerken.at/datenschutz">
   <title>Datenschutzerklärung – pferdestaerken.at</title>
   <meta name="robots" content="noindex">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/fonts.css">
 
-  <link rel="stylesheet" href="assets/css/legal.css">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <style>
+    .stand { font-size: 0.8rem; color: var(--text-muted); margin: -36px 0 40px; }
+    .part-title { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 700; color: var(--brown-dark); margin: 0 0 8px; }
+    h3 { font-size: 1rem; font-weight: 700; color: var(--brown-dark); margin: 32px 0 10px; }
+    .page-wrap ul { margin: 0 0 0.9em 1.2em; }
+    .page-wrap li { font-size: 0.9375rem; line-height: 1.75; color: #3a2e25; margin-bottom: 0.3em; }
+    .overview { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; }
+    .overview h3 { margin-top: 20px; }
+    .overview h3:first-child { margin-top: 0; }
+    .cookie-settings-btn { font: inherit; font-size: 0.875rem; font-weight: 600; color: var(--white); background: var(--amber); border: none; border-radius: 5px; padding: 10px 18px; cursor: pointer; }
+    .cookie-settings-btn:hover { background: var(--brown-mid); }
+    @media (max-width: 600px) { .overview { padding: 20px; } }
+  </style>
   <script defer src="/assets/js/components.js"></script>
 
   <!-- Favicons -->
@@ -32,6 +43,7 @@
   <main class="page-wrap">
 
     <h1>Datenschutzerklärung</h1>
+    <p class="stand">Stand: September 2026</p>
 
     <h2>Verantwortliche</h2>
     <p>Dipl.-Ing. Kristina Heidinger<br>
@@ -40,56 +52,76 @@
 
     <hr>
 
-    <h2>Allgemeines</h2>
-    <p>Der Schutz personenbezogener Daten ist mir ein wichtiges Anliegen. Ich verarbeite Daten ausschließlich auf Grundlage der gesetzlichen Bestimmungen der Datenschutz-Grundverordnung (DSGVO) sowie des österreichischen Datenschutzgesetzes (DSG).</p>
-    <p>In dieser Datenschutzerklärung informiere ich über die wichtigsten Aspekte der Datenverarbeitung auf dieser Website.</p>
+    <h2>Überblick</h2>
+    <p>Welche Daten verarbeitet werden, hängt davon ab, was Sie auf dieser Website tun:</p>
+
+    <div class="overview">
+      <h3>Bei jedem Besuch der Website</h3>
+      <ul>
+        <li>Hosting über GitHub Pages (technische Zugriffsdaten wie IP-Adresse)</li>
+        <li>Ein Cookie, das Ihre Cookie-Auswahl speichert</li>
+        <li><strong>Nur mit Ihrer Einwilligung:</strong> Google Analytics</li>
+      </ul>
+      <h3>Nur wenn Sie Kontakt aufnehmen oder eine Beratung buchen</h3>
+      <ul>
+        <li>Anfrageformular zur Online-Beratung, mit Spamschutz durch Cloudflare Turnstile</li>
+        <li>Terminbuchung über Google Kalender</li>
+        <li>E-Mail-Korrespondenz</li>
+        <li>Rechnungsstellung</li>
+      </ul>
+    </div>
 
     <hr>
+
+    <p class="part-title">Teil 1: Bei jedem Besuch der Website</p>
 
     <h2>Hosting</h2>
-    <p>Diese Website wird über <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet, einem Dienst der Microsoft Corporation. Beim Aufruf der Website werden technisch bedingt Daten wie IP-Adresse, Browsertyp, Betriebssystem sowie Datum und Uhrzeit des Zugriffs in Server-Logfiles gespeichert.</p>
-    <p>Diese Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren und stabilen Betrieb der Website). Die Daten werden nicht mit anderen Datenquellen zusammengeführt und nach spätestens 30 Tagen gelöscht.</p>
-    <p>GitHub hat sich dem EU-US Data Privacy Framework angeschlossen, das einen angemessenen Datenschutz für Übermittlungen in die USA gewährleistet. Weitere Informationen finden sich in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+    <p>Diese Website wird über <strong>GitHub Pages</strong> (GitHub Inc., USA) gehostet. Beim Aufruf der Website verarbeitet GitHub technisch bedingt Zugriffsdaten wie IP-Adresse, Browsertyp, Betriebssystem sowie Datum und Uhrzeit des Zugriffs, um die Website auszuliefern und vor Angriffen zu schützen. Ich selbst habe auf diese Daten keinen Zugriff.</p>
+    <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren und stabilen Betrieb der Website).</p>
 
-    <hr>
-
-    <h2>Kontaktformulare</h2>
-    <p>Auf dieser Website werden Kontakt- und Beratungsanfragen über <strong>Google Forms</strong> (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA) abgewickelt. Wenn Sie ein Formular ausfüllen und absenden, werden die von Ihnen eingegebenen Daten (z. B. Name, E-Mail-Adresse, Angaben zum Pferd) an Google übermittelt und von mir zur Bearbeitung Ihrer Anfrage verwendet.</p>
-    <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der effizienten Bearbeitung von Anfragen). Die Daten werden nicht an Dritte weitergegeben und nur so lange gespeichert, wie es für die Bearbeitung der Anfrage erforderlich ist.</p>
-    <p>Google hat sich dem EU-US Data Privacy Framework angeschlossen. Weitere Informationen finden sich in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
-
-    <hr>
-
-    <h2>E-Mail-Kontakt</h2>
-    <p>Wenn Sie mir per E-Mail schreiben, werden Ihre Anfrage und die von Ihnen mitgeteilten personenbezogenen Daten (Name, E-Mail-Adresse sowie der Inhalt Ihrer Nachricht) zum Zweck der Bearbeitung der Anfrage verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO. Die Daten werden nicht an Dritte weitergegeben und nach abgeschlossener Bearbeitung gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
-
-    <hr>
-
-    <h2>Google Fonts</h2>
-    <p>Diese Website verwendet <strong>Google Fonts</strong> (Google LLC), die beim Laden der Seite direkt von Googles Servern abgerufen werden. Dabei wird Ihre IP-Adresse an Google übermittelt. Die Einbindung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer einheitlichen und ansprechenden Darstellung der Website).</p>
-    <p>Google hat sich dem EU-US Data Privacy Framework angeschlossen. Weitere Informationen finden sich in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
-
-    <hr>
+    <h2>Cookies und Cookie-Einstellungen</h2>
+    <p>Ihre Auswahl im Cookie-Hinweis wird im Cookie <code>pfs_consent</code> für 12 Monate gespeichert, damit der Hinweis nicht bei jedem Seitenaufruf erneut erscheint. Dieses Cookie ist technisch erforderlich (§ 165 Abs. 3 TKG 2021).</p>
+    <p>Sie können Ihre Auswahl jederzeit ändern und eine erteilte Einwilligung mit Wirkung für die Zukunft widerrufen:</p>
+    <p><button type="button" class="cookie-settings-btn" data-cookie-settings>Cookie-Einstellungen ändern</button></p>
 
     <h2>Google Analytics</h2>
-    <p>Diese Website verwendet <strong>Google Analytics 4</strong> (Google LLC), einen Webanalysedienst, der mithilfe von Cookies das Nutzungsverhalten auf der Website analysiert. Die dabei erzeugten Informationen (z. B. aufgerufene Seiten, Verweildauer, ungefährer Standort) werden an Server von Google übertragen und dort gespeichert. Die IP-Adresse wird anonymisiert, bevor sie gespeichert wird.</p>
-    <p>Google Analytics wird nur nach Ihrer ausdrücklichen Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO aktiviert. Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, indem Sie Ihre Cookie-Einstellungen auf dieser Website anpassen.</p>
-    <p>Google hat sich dem EU-US Data Privacy Framework angeschlossen. Weitere Informationen finden sich in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+    <p>Mit Ihrer Einwilligung verwendet diese Website <strong>Google Analytics 4</strong> (Google Ireland Limited, Irland), um zu verstehen, wie die Website genutzt wird, z. B. welche Seiten aufgerufen und welche Buttons geklickt werden. Dazu werden Cookies (<code>_ga</code>, <code>_ga_*</code>, Speicherdauer bis zu 2 Jahre) gesetzt und Nutzungsdaten, ungefährer Standort sowie Geräte- und Browserinformationen an Google übertragen.</p>
+    <p>Rechtsgrundlage ist Ihre Einwilligung (§ 165 Abs. 3 TKG 2021, Art. 6 Abs. 1 lit. a DSGVO). Ohne Einwilligung wird Google Analytics nicht geladen.</p>
 
     <hr>
+
+    <p class="part-title">Teil 2: Wenn Sie Kontakt aufnehmen oder eine Beratung buchen</p>
+
+    <h2>Anfrageformular zur Online-Beratung</h2>
+    <p>Wenn Sie eine Online-Beratung anfragen, verarbeite ich Ihre Kontaktdaten (Name, E-Mail-Adresse, Postanschrift) sowie Ihre Angaben zu Ihrem Pferd, seiner Haltung und Fütterung, um die Beratung durchzuführen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung und -erfüllung).</p>
+    <p>Diese Angaben sind für die Beratung erforderlich. Ohne sie kann ich die Online-Beratung nicht durchführen.</p>
+    <p>Die Daten werden in meinem Kundenverwaltungssystem gespeichert, das auf einem Server der <strong>Hetzner Online GmbH</strong> (Deutschland) in einem Rechenzentrum in Finnland läuft. Während des Ausfüllens speichert Ihr Browser Ihre Eingaben als Entwurf lokal auf Ihrem Gerät, damit bei einem Verbindungsabbruch nichts verloren geht. Dieser Entwurf wird nach dem Absenden gelöscht, spätestens nach 48 Stunden.</p>
+
+    <h2>Spamschutz (Cloudflare Turnstile)</h2>
+    <p>Das Anfrageformular ist durch <strong>Cloudflare Turnstile</strong> (Cloudflare, Inc., USA) vor automatisierten Spam-Anfragen geschützt. Beim Aufruf der Seite zur Online-Beratung werden dazu Ihre IP-Adresse und technische Informationen über Ihren Browser an Cloudflare übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am Schutz vor Missbrauch).</p>
+
+    <h2>Terminbuchung über Google Kalender</h2>
+    <p>Telefontermine können Sie über die Terminbuchung von <strong>Google Kalender</strong> (Google Ireland Limited, Irland) buchen, die auf der Seite <a href="/terminbuchung/">Terminbuchung</a> eingebunden ist. Beim Aufruf dieser Seite werden Ihre IP-Adresse und technische Informationen über Ihren Browser an Google übermittelt, und Google kann Cookies setzen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer einfachen Online-Terminvergabe).</p>
+    <p>Bei einer Buchung werden Name, E-Mail-Adresse und Telefonnummer in meinem Google Kalender gespeichert, damit ich Sie zum vereinbarten Zeitpunkt anrufen kann (Art. 6 Abs. 1 lit. b DSGVO).</p>
+
+    <h2>E-Mail-Korrespondenz</h2>
+    <p>Wenn Sie mir schreiben oder ich Ihnen Bestätigung, Zahlungsanweisung oder Beratungsbericht zusende, verarbeite ich Ihre E-Mail-Adresse, Ihren Namen, den Inhalt der Nachrichten und Anhänge (z. B. Fotos, Befunde oder eine Heuanalyse). Mein E-Mail-Postfach wird von <strong>Microsoft</strong> (Microsoft Ireland Operations Limited, Irland) bereitgestellt. E-Mails zu einer Anfrage oder Beratung werden zusätzlich in meinem Kundenverwaltungssystem gespeichert.</p>
+    <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO bzw., bei sonstigen Anfragen, Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung).</p>
+
+    <h2>Rechnungsstellung</h2>
+    <p>Für gebuchte Beratungen verarbeite ich Name, Postanschrift und die Angaben zu Leistung und Zahlung für Rechnung und Buchhaltung. Diese Unterlagen muss ich sieben Jahre aufbewahren (§ 132 BAO, Art. 6 Abs. 1 lit. c DSGVO).</p>
+
+    <h2>Speicherdauer</h2>
+    <p>Kommt es nach einer Anfrage zu keiner Buchung, lösche ich die Daten spätestens sechs Monate nach dem letzten Kontakt. Daten zu durchgeführten Beratungen bewahre ich für Rückfragen und Folgeberatungen auf, längstens bis zum Ende der gesetzlichen Aufbewahrungsfrist von sieben Jahren.</p>
+
+    <hr>
+
+    <h2>Übermittlung in die USA</h2>
+    <p>GitHub, Google, Cloudflare und Microsoft sind US-Unternehmen bzw. deren Tochtergesellschaften, sodass Daten in die USA übermittelt werden können. Alle vier sind unter dem <strong>EU-US Data Privacy Framework</strong> zertifiziert, für das ein Angemessenheitsbeschluss der EU-Kommission besteht (Art. 45 DSGVO).</p>
 
     <h2>Ihre Rechte</h2>
-    <p>Ihnen stehen bezüglich Ihrer bei mir gespeicherten personenbezogenen Daten folgende Rechte zu:</p>
-    <p><strong>Auskunft</strong> (Art. 15 DSGVO) · <strong>Berichtigung</strong> (Art. 16 DSGVO) · <strong>Löschung</strong> (Art. 17 DSGVO) · <strong>Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO) · <strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO) · <strong>Widerspruch</strong> (Art. 21 DSGVO)</p>
-    <p>Zur Ausübung dieser Rechte wenden Sie sich bitte an: <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a></p>
-
-    <hr>
-
-    <h2>Beschwerderecht</h2>
-    <p>Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen die DSGVO verstößt, haben Sie das Recht, bei der <strong>Österreichischen Datenschutzbehörde</strong> Beschwerde einzulegen:</p>
-    <p>Österreichische Datenschutzbehörde<br>
-    Barichgasse 40–42, 1030 Wien<br>
-    <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a></p>
+    <p>Sie haben das Recht auf <strong>Auskunft</strong>, <strong>Berichtigung</strong>, <strong>Löschung</strong>, <strong>Einschränkung der Verarbeitung</strong>, <strong>Datenübertragbarkeit</strong> und <strong>Widerspruch</strong> (Art. 15–18, 20, 21 DSGVO) sowie das Recht, eine Einwilligung jederzeit mit Wirkung für die Zukunft zu <strong>widerrufen</strong> (Art. 7 Abs. 3 DSGVO). Wenden Sie sich dafür an <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a>.</p>
+    <p>Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen die DSGVO verstößt, können Sie sich bei der <strong>Österreichischen Datenschutzbehörde</strong> beschweren (Barichgasse 40–42, 1030 Wien, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>).</p>
 
   </main>
 
