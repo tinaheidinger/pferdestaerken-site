@@ -1,0 +1,165 @@
+// Entsperren + Anzeige der Beratungsakten (/beratung/<slug>/).
+// Zentral für alle Akten — die Seiten selbst enthalten nur das Chiffrat
+// (<script id="payload" type="application/json">) und <body data-slug="…">.
+(function () {
+  const PAYLOAD = JSON.parse(document.getElementById('payload').textContent);
+  const SESSION_KEY = 'ps_unlocked_' + document.body.dataset.slug;
+
+  function b64ToBytes(b64) {
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  async function deriveKey(pin, saltBytes) {
+    const raw = await crypto.subtle.importKey(
+      'raw', new TextEncoder().encode(pin), 'PBKDF2', false, ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: saltBytes, iterations: 10_000, hash: 'SHA-256' },
+      raw,
+      { name: 'AES-GCM', length: 256 },
+      false, ['decrypt']
+    );
+  }
+
+  async function tryDecrypt(pin) {
+    const salt = b64ToBytes(PAYLOAD.salt);
+    const iv   = b64ToBytes(PAYLOAD.iv);
+    const ct   = b64ToBytes(PAYLOAD.ct); // ciphertext || 16-byte GCM tag
+
+    try {
+      const key = await deriveKey(pin, salt);
+      const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+      return new TextDecoder().decode(plainBuf);
+    } catch {
+      return null; // wrong PIN → decryption fails with DOMException
+    }
+  }
+
+  async function showReport(html) {
+    document.getElementById('lock-screen').style.display = 'none';
+    const container = document.getElementById('report-container');
+
+    // Strip base64 images before innerHTML so iOS doesn't have to decode
+    // several MB of image data synchronously during the DOM parse.
+    const imgData = [];
+    const stripped = html.replace(/src="(data:image\/[^"]+)"/g, (_, dataUrl) => {
+      const idx = imgData.push(dataUrl) - 1;
+      return `src="data:," data-src="${idx}"`;
+    });
+
+    container.innerHTML = stripped;
+    // Zentrale Bausteine (<div data-widget="…">) einsetzen — siehe beratung-widgets.js
+    if (window.BeratungWidgets) window.BeratungWidgets.render(container);
+    container.style.display = 'block';
+    window.scrollTo(0, 0);
+
+    // Load each image lazily, one frame at a time
+    for (const img of container.querySelectorAll('img[data-src]')) {
+      await new Promise(r => setTimeout(r, 16));
+      img.src = imgData[parseInt(img.dataset.src)];
+    }
+
+    setTimeout(initLightbox, 0);
+  }
+
+  // Resume from session (stores decrypted HTML so page stays open on reload)
+  const cached = sessionStorage.getItem(SESSION_KEY);
+  if (cached) showReport(cached);
+
+  // PIN input UX
+  const form = document.getElementById('pin-form');
+  const digits = [...document.querySelectorAll('.pin-digit')];
+  const submit = () => form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  digits.forEach((el, i) => {
+    el.addEventListener('input', () => {
+      el.value = el.value.replace(/[^0-9]/g, '').slice(-1);
+      if (el.value && i < digits.length - 1) digits[i + 1].focus();
+      if (digits.every(d => d.value)) submit();
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !el.value && i > 0) digits[i - 1].focus();
+      if (e.key === 'ArrowLeft'  && i > 0)             digits[i - 1].focus();
+      if (e.key === 'ArrowRight' && i < digits.length - 1) digits[i + 1].focus();
+    });
+    el.addEventListener('paste', e => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      pasted.split('').slice(0, 4).forEach((ch, j) => { if (digits[i + j]) digits[i + j].value = ch; });
+      const next = Math.min(i + pasted.length, digits.length - 1);
+      digits[next].focus();
+      if (digits.every(d => d.value)) submit();
+    });
+  });
+
+  digits[0].focus();
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const pin = digits.map(d => d.value).join('');
+    if (pin.length < 4) return;
+
+    const btn = document.getElementById('btn-unlock');
+    btn.disabled = true;
+    btn.textContent = 'Wird entschlüsselt …';
+
+    // Yield so browser paints the button text before heavy crypto work starts
+    await new Promise(r => setTimeout(r, 50));
+
+    const html = await tryDecrypt(pin);
+
+    if (html) {
+      btn.textContent = 'Akte wird geladen …';
+      // Yield again so browser can repaint before the large innerHTML parse
+      await new Promise(r => setTimeout(r, 50));
+      showReport(html);
+      setTimeout(() => { try { sessionStorage.setItem(SESSION_KEY, html); } catch (_) {} }, 300);
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Akte öffnen';
+      const errEl = document.getElementById('lock-error');
+      errEl.textContent = 'Ungültiger Code – bitte versuche es erneut.';
+      digits.forEach(d => { d.value = ''; d.classList.add('error'); });
+      setTimeout(() => digits.forEach(d => d.classList.remove('error')), 400);
+      digits[0].focus();
+    }
+  });
+
+  // Lightbox — initialisiert nach Report-Injection
+  function initLightbox() {
+    const lb = document.getElementById('lightbox');
+    if (!lb) return;
+    const lbImg = lb.querySelector('.lightbox-img');
+    const lbCounter = lb.querySelector('.lightbox-counter');
+    const thumbs = [...document.querySelectorAll('.foto-thumb')];
+    let current = 0;
+
+    function open(i) {
+      current = i;
+      lbImg.src = thumbs[i].querySelector('img').src;
+      lbCounter.textContent = `${i + 1} / ${thumbs.length}`;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function prev() { open((current - 1 + thumbs.length) % thumbs.length); }
+    function next() { open((current + 1) % thumbs.length); }
+
+    thumbs.forEach((t, i) => t.addEventListener('click', () => open(i)));
+    lb.querySelector('.lightbox-close').addEventListener('click', close);
+    lb.querySelector('.lightbox-prev').addEventListener('click', prev);
+    lb.querySelector('.lightbox-next').addEventListener('click', next);
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+  }
+})();

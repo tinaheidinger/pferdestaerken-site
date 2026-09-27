@@ -4,48 +4,58 @@ Verschlüsselte Kundenseiten unter `/beratung/<slug>/`. Die Seite enthält nur d
 AES-256-GCM-Chiffrat; entschlüsselt wird im Browser mit einem 4-stelligen Zugangscode.
 
 **Dieses Repo ist öffentlich — Kundendaten niemals im Klartext committen**, auch nicht
-in Commit-Nachrichten oder PR-Beschreibungen. Nur Slug verwenden.
+in Commit-Nachrichten oder PR-Beschreibungen. Nur den Slug verwenden.
 
-## Dateien
+## Aufbau
+
+Alles, was für alle Akten gleich ist, liegt **zentral** und wird von jeder Akte nur eingebunden:
 
 | Datei | Inhalt |
 |---|---|
-| `shell.html` | Rahmen mit Code-Eingabe und Entschlüsselung (`__SLUG__`, `__ENCRYPTED_PAYLOAD__`) |
-| `widgets.mjs` | Zentrale Bausteine: BCS, CNS (nicht beurteilbar), Unterlagen, Allgemeine Hinweise, Rechtliche Hinweise, Akademie, Beraterin, Footer, Lightbox |
-| `template.html` | Vorlage für eine neue Akte (ohne Kundendaten) |
-| `build.mjs` | Baut und verschlüsselt eine Akte |
-| `src/<slug>/` | Klartext-Quelle der Akte — **gitignored**, nur lokal |
+| `/assets/beratung.css` | Styles |
+| `/assets/beratung.js` | Code-Eingabe, Entschlüsselung, Lightbox |
+| `/assets/beratung-widgets.js` | Bausteine: BCS, CNS (nicht beurteilbar), Allgemeine Hinweise, Rechtliche Hinweise, Akademie, Beraterin, Footer, Lightbox |
 
-## Neue Akte anlegen
+Eine Akte (`beratung/<slug>/index.html`) enthält nur noch den Rahmen mit Code-Eingabe,
+das Chiffrat und die Einbindung dieser Dateien. Die Bausteine stehen in der Akte als
+Platzhalter und werden nach dem Entsperren eingesetzt — **eine Änderung an
+`beratung-widgets.js` wirkt sofort in allen Akten**, ohne neu zu verschlüsseln.
+
+```html
+<div data-widget="bcs" data-score="5" data-horse="Name">optionale Beschreibung</div>
+<div data-widget="cns-nicht-beurteilbar" data-horse="Name"></div>
+<div data-widget="allgemeine-hinweise" data-eyebrow="07 · Hinweise"></div>
+<div data-widget="rechtliche-hinweise" data-eyebrow="08 · Rechtliches"></div>
+<div data-widget="akademie" data-campaign="<slug>">optionaler Rabatt-Text</div>
+<div data-widget="beraterin"></div>
+<div data-widget="footer"></div>
+<div data-widget="lightbox"></div>
+```
+
+Hinweis: bschin und spesch wurden vor der Umstellung erstellt und enthalten die
+Bausteine noch als festen HTML-Code im Chiffrat.
+
+## Build-Skript
+
+`build.mjs` wird nur für das gebraucht, was pro Akte passiert:
+
+- Fotos/PDFs einbetten (`"@file:assets/…"` in `src`/`href` → data:-URI) — sie müssen im
+  Chiffrat stecken, als eigene Dateien wären sie öffentlich abrufbar
+- verschlüsseln und `beratung/<slug>/index.html` schreiben (Rahmen: `shell.html`)
+- prüfen, dass alle `data-widget`-Namen existieren
 
 ```bash
-mkdir -p tools/beratung/src/<slug>/assets
+mkdir -p tools/beratung/src/<slug>/assets            # src/ ist gitignored
 cp tools/beratung/template.html tools/beratung/src/<slug>/index.html
 # ausfüllen, Fotos/PDFs nach src/<slug>/assets/
 node tools/beratung/build.mjs tools/beratung/src/<slug>/index.html --slug <slug>
-# → beratung/<slug>/index.html + zufälliger Zugangscode in der Ausgabe
+# → zufälliger Zugangscode in der Ausgabe; beim Aktualisieren --pin <code> angeben
 ```
 
-Beim Aktualisieren einer bestehenden Akte den bisherigen Code mit `--pin 1234` angeben.
-Mit `--plain-out <datei>` wird zusätzlich der fertige Klartext (alle Bilder eingebettet)
-geschrieben — als Sicherung außerhalb des Repos aufbewahren; er kann selbst wieder als
-Quelle für `build.mjs` dienen.
+`--plain-out <datei>` schreibt zusätzlich den fertigen Klartext (Bilder eingebettet) —
+als Sicherung **außerhalb des Repos** aufbewahren; er kann wieder als Quelle dienen.
 
-## Bausteine einbinden
-
-```html
-<!-- @widget bcs {"score": 5, "horse": "Name"} -->
-<!-- @widget cns-nicht-beurteilbar {"horse": "Name"} -->
-<!-- @widget unterlagen {"items": [{"label": "Heuanalyse – PDF", "href": "@file:assets/heu.pdf", "download": "Heuanalyse.pdf"}]} -->
-<!-- @widget allgemeine-hinweise {"eyebrow": "07 · Hinweise"} -->
-<!-- @widget rechtliche-hinweise {"eyebrow": "08 · Rechtliches"} -->
-<!-- @widget akademie {"campaign": "<slug>"} -->
-<!-- @widget beraterin -->
-<!-- @widget footer -->
-<!-- @widget lightbox -->
-```
-
-`"@file:pfad"` in `src`/`href` wird beim Build als data:-URI eingebettet (Pfad relativ zur Quelle).
-Änderungen an einem Baustein wirken sich auf jede Akte aus, die danach neu gebaut wird.
+`--repack <slug>` übernimmt das Chiffrat einer bestehenden Akte unverändert in den
+aktuellen `shell.html` (ohne Zugangscode), z. B. nach Änderungen am Rahmen.
 
 Tests: `node --test tools/beratung/*.test.mjs`

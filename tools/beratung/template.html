@@ -63,8 +63,8 @@
       <div class="section-eyebrow">02 · Befunderhebung</div>
       <h2>Körperkondition</h2>
       <div class="befund-grid">
-        <!-- @widget bcs {"score": 5, "horse": "[Pferd]"} -->
-        <!-- @widget cns-nicht-beurteilbar {"horse": "[Pferd]"} -->
+        <div data-widget="bcs" data-score="5" data-horse="[Pferd]"></div>
+        <div data-widget="cns-nicht-beurteilbar" data-horse="[Pferd]"></div>
       </div>
     </section>
 
@@ -77,7 +77,9 @@
       </div>
       <div class="befund-full" style="margin-top:22px">
         <div class="befund-item-label">Übermittelte Unterlagen</div>
-        <!-- @widget unterlagen {"items": [{"label": "[Foto]", "type": "img"}]} -->
+        <div class="unterlagen-list">
+          <div class="unterlagen-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>[Foto]</span></div>
+        </div>
         <div class="foto-grid">
           <div class="foto-thumb"><img src="@file:assets/foto-1.jpg" alt="[Pferd]"></div>
         </div>
@@ -207,12 +209,12 @@
       </div>
     </section>
 
-    <!-- @widget allgemeine-hinweise {"eyebrow": "07 · Hinweise"} -->
-    <!-- @widget rechtliche-hinweise {"eyebrow": "08 · Rechtliches"} -->
-    <!-- @widget akademie {"campaign": "[slug]"} -->
-    <!-- @widget beraterin -->
+    <div data-widget="allgemeine-hinweise" data-eyebrow="07 · Hinweise"></div>
+    <div data-widget="rechtliche-hinweise" data-eyebrow="08 · Rechtliches"></div>
+    <div data-widget="akademie" data-campaign="[slug]"></div>
+    <div data-widget="beraterin"></div>
 
   </div>
 
-  <!-- @widget footer -->
-  <!-- @widget lightbox -->
+  <div data-widget="footer"></div>
+  <div data-widget="lightbox"></div>

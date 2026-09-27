@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { build, decrypt, encrypt, inlineFiles, randomPin, renderWidgets, wrapShell } from './build.mjs';
+import {
+  build, checkWidgets, decrypt, encrypt, extractPayload, inlineFiles, loadWidgets, randomPin, repack, wrapShell,
+} from './build.mjs';
 
 test('encrypt/decrypt round-trip, falscher Code schlägt fehl', async () => {
   const payload = await encrypt('<p>Hallo ü</p>', '0427');
@@ -15,18 +17,23 @@ test('randomPin ist immer 4-stellig', () => {
   for (let i = 0; i < 200; i++) assert.match(randomPin(), /^\d{4}$/);
 });
 
-test('renderWidgets ersetzt Direktiven und kennt keine unbekannten Widgets', () => {
-  const html = renderWidgets('<div><!-- @widget bcs {"score": 5, "horse": "Testpferd"} --></div><!-- @widget beraterin -->');
-  assert.match(html, /bcs-seg active/);
-  assert.match(html, /5 \/ 9/);
-  assert.match(html, /Kristina Heidinger/);
-  assert.doesNotMatch(html, /@widget/);
-  assert.throws(() => renderWidgets('<!-- @widget gibtsnicht -->'), /Unbekanntes Widget/);
-  assert.throws(() => renderWidgets('<!-- @widget bcs {"score": 10} -->'), /1–9/);
+test('zentrale Widgets rendern (assets/beratung-widgets.js)', async () => {
+  const w = await loadWidgets();
+  const bcs = w.bcs({ score: '5', horse: 'Testpferd', content: 'Beschreibung' });
+  assert.match(bcs, /bcs-seg active/);
+  assert.match(bcs, /5 \/ 9/);
+  assert.match(bcs, /Beschreibung/);
+  assert.throws(() => w.bcs({ score: '10' }), /1–9/);
+  assert.match(w.bcs({ score: '3', horse: '<b>x</b>' }), /&lt;b&gt;x&lt;\/b&gt;/);
+  assert.match(w['cns-nicht-beurteilbar']({}), /nicht beurteilbar/);
+  assert.match(w.akademie({ campaign: 'abc' }), /utm_campaign=abc/);
+  assert.match(w.beraterin(), /Kristina Heidinger/);
+  for (const name of ['allgemeine-hinweise', 'rechtliche-hinweise', 'footer', 'lightbox']) assert.ok(w[name]());
 });
 
-test('Widget-Parameter werden HTML-escaped', () => {
-  assert.match(renderWidgets('<!-- @widget bcs {"score": 3, "horse": "<b>x</b>"} -->'), /&lt;b&gt;x&lt;\/b&gt;/);
+test('checkWidgets erkennt unbekannte Widgets', async () => {
+  await checkWidgets('<div data-widget="akademie"></div>');
+  await assert.rejects(checkWidgets('<div data-widget="gibtsnicht"></div>'), /Unbekanntes Widget/);
 });
 
 test('inlineFiles bettet Dateien als data:-URI ein', async () => {
@@ -35,20 +42,32 @@ test('inlineFiles bettet Dateien als data:-URI ein', async () => {
   assert.equal(await inlineFiles('<img src="@file:a.png">', dir), '<img src="data:image/png;base64,AQID">');
 });
 
-test('wrapShell setzt Payload und Session-Key pro Slug', () => {
-  const out = wrapShell("const PAYLOAD = __ENCRYPTED_PAYLOAD__; const K = 'ps_unlocked___SLUG__';", { ct: '$&' }, 'abc');
-  assert.equal(out, `const PAYLOAD = {"ct":"$&"}; const K = 'ps_unlocked_abc';`);
+test('wrapShell setzt Payload und Slug', () => {
+  const out = wrapShell('<body data-slug="__SLUG__"><script>__ENCRYPTED_PAYLOAD__</script>', { ct: '$&' }, 'abc');
+  assert.equal(out, '<body data-slug="abc"><script>{"ct":"$&"}</script>');
 });
 
-test('build schreibt verschlüsselte Seite ohne Klartext', async () => {
+test('extractPayload liest neues und altes Seitenformat', () => {
+  const p = { salt: 'cw==', iv: 'aQ==', ct: 'Yw==' };
+  assert.deepEqual(extractPayload(`<script id="payload" type="application/json">${JSON.stringify(p)}</script>`), p);
+  assert.deepEqual(extractPayload(`const PAYLOAD = ${JSON.stringify(p)};\nconst X = {};`), p);
+});
+
+test('build schreibt verschlüsselte Seite ohne Klartext, repack behält Chiffrat', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'beratung-'));
   const src = join(dir, 'src.html');
-  await writeFile(src, '<h1>Geheimer Kundenname</h1><!-- @widget footer -->');
+  await writeFile(src, '<h1>Geheimer Kundenname</h1><div data-widget="footer"></div>');
   const res = await build({ source: src, slug: 'test', pin: '1234', outRoot: dir });
   const page = await readFile(res.outFile, 'utf8');
   assert.doesNotMatch(page, /Geheimer Kundenname/);
-  assert.match(page, /ps_unlocked_test/);
-  const payload = JSON.parse(page.match(/const PAYLOAD = (\{.*\});/)[1]);
+  assert.match(page, /data-slug="test"/);
+  assert.match(page, /\/assets\/beratung\.js/);
+  const payload = extractPayload(page);
   assert.match(await decrypt(payload, '1234'), /Geheimer Kundenname/);
+
+  await writeFile(res.outFile, `alt: const PAYLOAD = ${JSON.stringify(payload)};`);
+  await repack({ slug: 'test', outRoot: dir });
+  assert.deepEqual(extractPayload(await readFile(res.outFile, 'utf8')), payload);
+
   await assert.rejects(build({ source: src, slug: 'Bad Slug', outRoot: dir }), /Slug/);
 });

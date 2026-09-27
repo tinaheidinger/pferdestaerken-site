@@ -2,11 +2,16 @@
 // Baut eine verschlüsselte Beratungsakte aus einer lokalen Klartext-Quelle.
 //
 //   node tools/beratung/build.mjs <quelle.html> --slug <slug> [--pin 1234] [--plain-out <datei>]
+//   node tools/beratung/build.mjs --repack <slug>
 //
-// 1. ersetzt <!-- @widget name {json} --> durch die zentralen Bausteine (widgets.mjs)
+// 1. prüft, dass alle <div data-widget="…"> in assets/beratung-widgets.js existieren
+//    (eingesetzt werden die Bausteine erst im Browser — zentral für alle Akten)
 // 2. bettet "@file:pfad" in src/href als data:-URI ein (Pfad relativ zur Quelle)
-// 3. verschlüsselt mit AES-256-GCM (PBKDF2-SHA-256, 10k Iterationen) — passend zu shell.html
-// 4. schreibt beratung/<slug>/index.html
+// 3. verschlüsselt mit AES-256-GCM (PBKDF2-SHA-256, 10k Iterationen) — passend zu assets/beratung.js
+// 4. schreibt beratung/<slug>/index.html (Rahmen: shell.html)
+//
+// --repack übernimmt das Chiffrat einer bestehenden Akte unverändert in den aktuellen
+// Rahmen (shell.html) — dafür wird der Zugangscode nicht gebraucht.
 //
 // Ohne --pin wird ein zufälliger 4-stelliger Code erzeugt und ausgegeben.
 // Die Klartext-Quelle gehört NIE ins Repo (siehe README.md).
@@ -15,7 +20,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomInt, webcrypto } from 'node:crypto';
-import { WIDGETS } from './widgets.mjs';
+import { runInNewContext } from 'node:vm';
 
 const { subtle } = webcrypto;
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -32,20 +37,18 @@ const MIME = {
   '.pdf': 'application/pdf',
 };
 
-export function renderWidgets(html) {
-  return html.replace(/<!--\s*@widget\s+([\w-]+)\s*(\{[\s\S]*?\})?\s*-->/g, (_, name, json) => {
-    const fn = WIDGETS[name];
-    if (!fn) throw new Error(`Unbekanntes Widget: ${name}`);
-    let args = {};
-    if (json) {
-      try {
-        args = JSON.parse(json);
-      } catch (e) {
-        throw new Error(`Widget ${name}: ungültiges JSON (${e.message})`);
-      }
-    }
-    return fn(args);
-  });
+export async function loadWidgets() {
+  const code = await readFile(join(SITE_ROOT, 'assets', 'beratung-widgets.js'), 'utf8');
+  const ctx = {};
+  runInNewContext(code, ctx);
+  return ctx.BeratungWidgets.widgets;
+}
+
+export async function checkWidgets(html) {
+  const widgets = await loadWidgets();
+  for (const [, name] of html.matchAll(/data-widget="([^"]+)"/g)) {
+    if (!widgets[name]) throw new Error(`Unbekanntes Widget: ${name}`);
+  }
 }
 
 export async function inlineFiles(html, baseDir) {
@@ -87,6 +90,14 @@ export async function decrypt(payload, pin) {
   return new TextDecoder().decode(pt);
 }
 
+export function extractPayload(page) {
+  const m =
+    page.match(/<script id="payload" type="application\/json">(\{.*?\})<\/script>/) ??
+    page.match(/const PAYLOAD = (\{.*?\});/); // altes Format (Skript inline in der Seite)
+  if (!m) throw new Error('Kein Chiffrat gefunden');
+  return JSON.parse(m[1]);
+}
+
 export function wrapShell(shell, payload, slug) {
   if (!shell.includes('__ENCRYPTED_PAYLOAD__') || !shell.includes('__SLUG__')) {
     throw new Error('shell.html: Platzhalter fehlen');
@@ -104,8 +115,8 @@ export async function build({ source, slug, pin = randomPin(), plainOut, outRoot
   if (!/^\d{4}$/.test(pin)) throw new Error('PIN muss 4-stellig sein');
 
   const src = await readFile(source, 'utf8');
-  const plain = await inlineFiles(renderWidgets(src), dirname(resolve(source)));
-  if (/@widget|"@file:/.test(plain)) throw new Error('Nicht aufgelöste Direktiven in der Quelle');
+  await checkWidgets(src);
+  const plain = await inlineFiles(src, dirname(resolve(source)));
 
   const payload = await encrypt(plain, pin);
   if ((await decrypt(payload, pin)) !== plain) throw new Error('Round-Trip fehlgeschlagen');
@@ -117,6 +128,14 @@ export async function build({ source, slug, pin = randomPin(), plainOut, outRoot
   if (plainOut) await writeFile(plainOut, plain);
 
   return { outFile, pin, bytes: plain.length };
+}
+
+export async function repack({ slug, outRoot = SITE_ROOT }) {
+  const file = join(outRoot, 'beratung', slug, 'index.html');
+  const payload = extractPayload(await readFile(file, 'utf8'));
+  const shell = await readFile(join(HERE, 'shell.html'), 'utf8');
+  await writeFile(file, wrapShell(shell, payload, slug));
+  return file;
 }
 
 function parseArgs(argv) {
@@ -131,8 +150,12 @@ function parseArgs(argv) {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = parseArgs(process.argv.slice(2));
+  if (args.repack) {
+    console.log(`✓ ${await repack({ slug: args.repack })} in aktuellen Rahmen übernommen`);
+    process.exit(0);
+  }
   if (!args._[0] || !args.slug) {
-    console.error('Aufruf: node tools/beratung/build.mjs <quelle.html> --slug <slug> [--pin 1234] [--plain-out <datei>]');
+    console.error('Aufruf: node tools/beratung/build.mjs <quelle.html> --slug <slug> [--pin 1234] [--plain-out <datei>]\n       node tools/beratung/build.mjs --repack <slug>');
     process.exit(1);
   }
   const res = await build({
