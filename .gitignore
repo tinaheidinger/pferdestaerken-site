@@ -1,1 +1,5 @@
 hubspot.config.yml
+
+# Beratungsakten: Klartext-Quellen mit Kundendaten — niemals committen
+tools/beratung/src/
+*.plain.html
