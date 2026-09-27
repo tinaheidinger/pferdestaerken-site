@@ -14,7 +14,7 @@ Alles, was für alle Akten gleich ist, liegt **zentral** und wird von jeder Akte
 |---|---|
 | `/assets/beratung.css` | Styles |
 | `/assets/beratung.js` | Code-Eingabe, Entschlüsselung, Lightbox |
-| `/assets/beratung-widgets.js` | Bausteine: BCS, CNS (nicht beurteilbar), Allgemeine Hinweise, Rechtliche Hinweise, Akademie, Beraterin, Footer, Lightbox |
+| `/assets/beratung-widgets.js` | Bausteine: Stammdaten Beraterin, BCS, CNS (nicht beurteilbar), Allgemeine Hinweise, Rechtliche Hinweise, Akademie, Beraterin-Karte, Lightbox, Footer |
 
 Eine Akte (`beratung/<slug>/index.html`) enthält nur noch den Rahmen mit Code-Eingabe,
 das Chiffrat und die Einbindung dieser Dateien. Die Bausteine stehen in der Akte als
@@ -22,18 +22,22 @@ Platzhalter und werden nach dem Entsperren eingesetzt — **eine Änderung an
 `beratung-widgets.js` wirkt sofort in allen Akten**, ohne neu zu verschlüsseln.
 
 ```html
-<div data-widget="bcs" data-score="5" data-horse="Name">optionale Beschreibung</div>
-<div data-widget="cns-nicht-beurteilbar" data-horse="Name"></div>
-<div data-widget="allgemeine-hinweise" data-eyebrow="07 · Hinweise"></div>
-<div data-widget="rechtliche-hinweise" data-eyebrow="08 · Rechtliches"></div>
-<div data-widget="akademie" data-campaign="<slug>">optionaler Rabatt-Text</div>
+<div class="meta-strip">
+  <div data-widget="stammdaten-beraterin"></div> …
+</div>
+<div class="befund-grid">
+  <div data-widget="bcs" data-score="5" data-horse="Name"></div>
+  <div data-widget="cns-nicht-beurteilbar"></div> …
+</div>
+… <div data-widget="allgemeine-hinweise"></div>   <!-- unter der Ration-Liste -->
+<div data-widget="rechtliche-hinweise"></div>
+<div data-widget="akademie"></div>
 <div data-widget="beraterin"></div>
-<div data-widget="footer"></div>
 <div data-widget="lightbox"></div>
+<div data-widget="footer"></div>
 ```
 
-Hinweis: bschin und spesch wurden vor der Umstellung erstellt und enthalten die
-Bausteine noch als festen HTML-Code im Chiffrat.
+Den vollständigen Aufbau einer Akte zeigt `template.html`.
 
 ## Build-Skript
 

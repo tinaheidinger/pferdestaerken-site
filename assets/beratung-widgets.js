@@ -3,12 +3,11 @@
 // Eine Akte enthält nur Platzhalter, die nach dem Entsperren durch assets/beratung.js
 // hier ersetzt werden:
 //
-//   <div data-widget="akademie" data-campaign="slug"></div>
-//   <div data-widget="bcs" data-score="5" data-horse="Name"></div>
+//   <div data-widget="akademie"></div>
+//   <div data-widget="bcs" data-score="7" data-horse="Name"></div>
 //
-// data-*-Attribute werden als Parameter übergeben; der Inhalt des Platzhalters (falls
-// vorhanden) als Parameter "content" (z. B. Beschreibung beim BCS, Rabatt-Text bei der
-// Akademie). Änderungen hier wirken sofort in allen Akten.
+// data-*-Attribute werden als Parameter übergeben. Änderungen hier wirken sofort in
+// allen Akten.
 //
 // Diese Datei ist öffentlich — hier gehören nur allgemeine Texte hinein, niemals Kundendaten.
 (function (root) {
@@ -19,205 +18,204 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
 
-  const INFO_ICON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+  const INFO_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
 
-  // ── Body Condition Score (Henneke, 1–9) ──
-  const BCS_SCALE = [
-    { n: 1, word: 'Kachektisch', c: '#c0392b' },
-    { n: 2, word: 'Sehr mager', c: '#d9622b' },
-    { n: 3, word: 'Mager', c: '#e8a33d' },
-    { n: 4, word: 'Mäßig mager', c: '#a9c46c' },
-    { n: 5, word: 'Ideal', c: '#2d7a44' },
-    { n: 6, word: 'Mäßig fleischig', c: '#a9c46c' },
-    { n: 7, word: 'Fleischig', c: '#e8a33d' },
-    { n: 8, word: 'Fett', c: '#d9622b' },
-    { n: 9, word: 'Adipös', c: '#c0392b' },
-  ];
-
-  function bcs({ score, horse = '', content = '' } = {}) {
-    const active = BCS_SCALE.find((s) => s.n === Number(score));
-    if (!active) throw new Error(`bcs: score muss 1–9 sein, war ${JSON.stringify(score)}`);
-    const segs = BCS_SCALE.map(
-      (s) => `
-            <div class="bcs-seg${s === active ? ' active' : ''}" style="--c:${s.c}">
-              ${s === active ? `<span class="bcs-arrow">${esc(horse || 'BCS ' + s.n)}</span>` : ''}
-              <div class="bcs-bar"></div>
-              <div class="bcs-num">${s.n}</div>
-              <div class="bcs-word">${esc(s.word)}</div>
-            </div>`,
-    ).join('');
-    const mini = BCS_SCALE.map(
-      (s) => `<div class="bcs-mini-seg${s === active ? ' active' : ''}" style="background:${s.c}"></div>`,
-    ).join('');
-    return `
-        <div class="befund-item befund-full">
-          <div class="befund-item-label">Body Condition Score (BCS)</div>
-          <div class="befund-score">${active.n} / 9</div>
-          <div class="bcs-wrap">
-            ${horse ? `<div class="bcs-horse-tag">${esc(horse)}</div>` : ''}
-            <div class="bcs-track">${segs}
-            </div>
-            <div class="bcs-mobile">
-              <div class="bcs-score-card">
-                <div class="bcs-score-num">${active.n}</div>
-                <div class="bcs-score-info">
-                  <div class="bcs-score-label">BCS · Skala 1–9</div>
-                  <div class="bcs-score-name">${esc(active.word)}</div>
-                </div>
-              </div>
-              <div class="bcs-mini-bar">${mini}</div>
-              <div class="bcs-mini-labels"><span>1 · mager</span><span>5 · ideal</span><span>9 · adipös</span></div>
-            </div>
-          </div>
-          ${content ? `<p class="befund-desc" style="margin-top:14px">${content}</p>` : ''}
+  // ── Stammdaten: Zelle „Beraterin“ (im .meta-strip) ──
+  function stammdatenBeraterin() {
+    return `<div class="meta-cell">
+          <div class="meta-cell-label">Beraterin</div>
+          <dl>
+            <dt>Name</dt>      <dd>Dipl.-Ing. Kristina Heidinger</dd>
+            <dt>Betrieb</dt>   <dd>Pferdestärken – Unabhängige Ernährungsberatung für Pferde</dd>
+            <dt>Adresse</dt>   <dd>Weiningergasse 3, 3040 Neulengbach</dd>
+            <dt>E-Mail</dt>    <dd>beratung@pferdestaerken.at</dd>
+            <dt>Website</dt>   <dd>pferdestaerken.at</dd>
+          </dl>
         </div>`;
   }
 
-  // ── Cresty Neck Score (Carter et al. 2009, 0–5) ──
-  const CNS_SCALE = [
-    { n: 0, word: 'Kein Kamm', c: '#2d7a44' },
-    { n: 1, word: 'Tastbar', c: '#a9c46c' },
-    { n: 2, word: 'Sichtbar', c: '#e8c53d' },
-    { n: 3, word: 'Ausgeprägt', c: '#e8a33d' },
-    { n: 4, word: 'Stark ausgeprägt', c: '#d9622b' },
-    { n: 5, word: 'Kippt seitlich', c: '#c0392b' },
+  // ── Body Condition Score (1–9), im .befund-grid ──
+  const BCS_SCALE = [
+    { c: '#b83030', word: 'Extrem abgemagert', name: 'Extrem abgemagert' },
+    { c: '#c05030', word: 'Sehr mager', name: 'Sehr mager' },
+    { c: '#c07820', word: 'Mager', name: 'Mager' },
+    { c: '#c8a820', word: 'Leicht unter&shy;wichtig', name: 'Leicht untergewichtig' },
+    { c: '#4a9060', word: 'Ideal&shy;gewicht', name: 'Idealgewicht' },
+    { c: '#c8a820', word: 'Leicht über&shy;wichtig', name: 'Leicht übergewichtig' },
+    { c: '#B8832A', word: 'Über&shy;wichtig', name: 'Übergewichtig' },
+    { c: '#c05030', word: 'Stark über&shy;gewichtig', name: 'Stark übergewichtig' },
+    { c: '#b83030', word: 'Schwer adipös', name: 'Schwer adipös' },
   ];
 
-  // CNS bei Onlineberatung: Skala ausgegraut + Hinweis „nicht beurteilbar“.
-  function cnsNichtBeurteilbar({
-    horse = '',
-    reason = 'Im Rahmen einer Onlineberatung nicht beurteilbar – der Cresty Neck Score erfordert ein Abtasten des Mähnenkamms vor Ort.',
-  } = {}) {
-    const segs = CNS_SCALE.map(
-      (s) => `
-                <div class="cns-seg" style="--c:${s.c}">
-                  <div class="cns-bar"></div>
-                  <div class="cns-num">${s.n}</div>
-                  <div class="cns-word">${esc(s.word)}</div>
-                </div>`,
-    ).join('');
-    return `
-        <div class="befund-item befund-full befund-na">
-          <div class="befund-item-label">Cresty Neck Score (CNS)</div>
-          <div class="cns-wrap">
-            <div class="cns-scale-wrap" aria-hidden="true">
-              ${horse ? `<div class="cns-horse-tag">${esc(horse)}</div>` : ''}
-              <div class="cns-track">${segs}
+  function bcs({ score, horse = '' } = {}) {
+    const n = Number(score);
+    if (!Number.isInteger(n) || n < 1 || n > 9) {
+      throw new Error(`bcs: data-score muss 1–9 sein, war ${JSON.stringify(score)}`);
+    }
+    const active = BCS_SCALE[n - 1];
+    const segs = BCS_SCALE.map((s, i) =>
+      i === n - 1
+        ? `                <div class="bcs-seg active" lang="de"><div class="bcs-arrow">${esc(horse)}</div><div class="bcs-bar" style="--c:${s.c}"></div><div class="bcs-num">${i + 1}</div><div class="bcs-word">${s.word}</div></div>`
+        : `                <div class="bcs-seg" lang="de"><div class="bcs-bar" style="--c:${s.c}"></div><div class="bcs-num">${i + 1}</div><div class="bcs-word">${s.word}</div></div>`,
+    ).join('\n');
+    const mini = BCS_SCALE.map((s, i) =>
+      `                  <div class="bcs-mini-seg${i === n - 1 ? ' active' : ''}" style="background:${s.c}"></div>`,
+    ).join('\n');
+    return `<div class="befund-item" style="grid-column: 1 / -1;">
+            <div class="befund-item-label">Body Condition Score (BCS)</div>
+            <div class="bcs-wrap">
+              <div class="bcs-horse-tag">${esc(horse)} · BCS ${n} – ${active.name}</div>
+              <div class="bcs-track">
+${segs}
               </div>
-              <div class="cns-mobile">
-                <div class="bcs-score-card cns-score-card">
-                  <div class="bcs-score-num cns-score-num">–</div>
+              <!-- Mobile: Score-Karte + Mini-Balken -->
+              <div class="bcs-mobile">
+                <div class="bcs-score-card">
+                  <div class="bcs-score-num">${n}</div>
                   <div class="bcs-score-info">
-                    <div class="bcs-score-label">CNS · Skala 0–5</div>
-                    <div class="bcs-score-name">nicht beurteilt</div>
+                    <div class="bcs-score-label">Body Condition Score</div>
+                    <div class="bcs-score-name">${active.name}</div>
+                  </div>
+                </div>
+                <div class="bcs-mini-bar">
+${mini}
+                </div>
+                <div class="bcs-mini-labels">
+                  <span>1 · Abgemagert</span>
+                  <span>9 · Adipös</span>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  }
+
+  // ── Cresty Neck Score: bei Onlineberatung nicht beurteilbar, im .befund-grid ──
+  function cnsNichtBeurteilbar() {
+    return `<div class="befund-item befund-na" style="grid-column: 1 / -1;">
+            <div class="befund-item-label">Cresty Neck Score (CNS)</div>
+            <div class="cns-wrap">
+              <div class="cns-scale-wrap">
+                <div class="cns-horse-tag">Skala 0–5 (Palpation erforderlich)</div>
+                <!-- Desktop: 6-segment bar -->
+                <div class="cns-track">
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#4a9060"></div><div class="cns-num">0</div><div class="cns-word">Kein Kammfett</div></div>
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#c8a820"></div><div class="cns-num">1</div><div class="cns-word">Minimal</div></div>
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#c8a820"></div><div class="cns-num">2</div><div class="cns-word">Leicht</div></div>
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#B8832A"></div><div class="cns-num">3</div><div class="cns-word">Moderat</div></div>
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#c05030"></div><div class="cns-num">4</div><div class="cns-word">Deutlich</div></div>
+                  <div class="cns-seg" lang="de"><div class="cns-bar" style="--c:#b83030"></div><div class="cns-num">5</div><div class="cns-word">Extrem</div></div>
+                </div>
+                <!-- Mobile: Score-Karte + Mini-Balken -->
+                <div class="cns-mobile">
+                  <div class="bcs-score-card cns-score-card">
+                    <div class="bcs-score-num cns-score-num">–</div>
+                    <div class="bcs-score-info">
+                      <div class="bcs-score-label">Cresty Neck Score</div>
+                      <div class="bcs-score-name">Nicht beurteilbar</div>
+                    </div>
+                  </div>
+                  <div class="bcs-mini-bar">
+                    <div class="bcs-mini-seg" style="background:#4a9060"></div>
+                    <div class="bcs-mini-seg" style="background:#c8a820"></div>
+                    <div class="bcs-mini-seg" style="background:#c8a820"></div>
+                    <div class="bcs-mini-seg" style="background:#B8832A"></div>
+                    <div class="bcs-mini-seg" style="background:#c05030"></div>
+                    <div class="bcs-mini-seg" style="background:#b83030"></div>
+                  </div>
+                  <div class="bcs-mini-labels">
+                    <span>0 · Kein Kammfett</span>
+                    <span>5 · Extrem</span>
                   </div>
                 </div>
               </div>
+              <div class="befund-na-label">
+                ${INFO_ICON}
+                Bei Onlineberatungen nicht beurteilbar — der CNS erfordert zwingend eine Palpation vor Ort.
+              </div>
             </div>
-            <div class="befund-na-label">${INFO_ICON}<span>${esc(reason)}</span></div>
-          </div>
+          </div>`;
+  }
+
+  // ── Allgemeine Hinweise (unter der Rationsempfehlung) ──
+  function allgemeineHinweise() {
+    return `<div class="ration-hinweise">
+          <div class="ration-hinweise-title">Allgemeine Hinweise</div>
+          <ul class="ration-hinweise-list">
+            <li>Darüber hinaus sollten keinerlei mineralisierten Futtermittel gegeben werden.</li>
+            <li>Futterumstellungen immer kleinschrittig umsetzen.</li>
+          </ul>
         </div>`;
   }
 
-  // ── Lightbox (einmal pro Akte, wird von shell.html initialisiert) ──
-  function lightbox() {
-    return `
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Bildansicht">
-      <button class="lightbox-close" aria-label="Schließen">&times;</button>
-      <button class="lightbox-nav lightbox-prev" aria-label="Vorheriges Bild">&#8249;</button>
-      <img class="lightbox-img" alt="">
-      <button class="lightbox-nav lightbox-next" aria-label="Nächstes Bild">&#8250;</button>
-      <div class="lightbox-counter"></div>
-    </div>`;
-  }
-
-  // ── Allgemeine Hinweise ──
-  function allgemeineHinweise({ eyebrow = 'Hinweise' } = {}) {
-    return `
-      <section class="report-section">
-        <div class="section-eyebrow">${esc(eyebrow)}</div>
-        <h2>Allgemeine Hinweise</h2>
-        <div class="ration-hinweise">
-          <div class="ration-hinweise-title">Für eine erfolgreiche Umsetzung</div>
-          <ul class="ration-hinweise-list">
-            <li><strong>Futterumstellungen immer schrittweise</strong> über 10 bis 14 Tage vornehmen – neue Futtermittel mit kleinen Mengen beginnen und langsam auf die empfohlene Menge steigern.</li>
-            <li><strong>Frisches, sauberes Wasser</strong> muss jederzeit zur freien Verfügung stehen.</li>
-            <li><strong>Mineralfutter nicht kombinieren:</strong> Bitte nur das empfohlene Mineralfutter einsetzen und nicht zusätzlich andere Mineral- oder Vitaminprodukte füttern, da sonst Über- oder Fehlversorgungen entstehen können.</li>
-            <li><strong>Gewicht und Körperkondition regelmäßig kontrollieren</strong> – z.&nbsp;B. alle 2 bis 4 Wochen mit dem Maßband und Fotos aus immer derselben Perspektive. So lassen sich Veränderungen frühzeitig erkennen und die Ration bei Bedarf anpassen.</li>
-            <li><strong>Neue Heucharge = neue Ausgangslage:</strong> Ändert sich das Heu, ändert sich auch die Nährstoffversorgung. Idealerweise wird jede neue Charge analysiert.</li>
-            <li><strong>Bei gesundheitlichen Veränderungen</strong> bitte immer zuerst tierärztlichen Rat einholen und mich anschließend informieren, damit die Ration angepasst werden kann.</li>
-          </ul>
-        </div>
-      </section>`;
-  }
-
   // ── Rechtliche Hinweise / Haftungsausschluss ──
-  function rechtlicheHinweise({ eyebrow = 'Rechtliches' } = {}) {
-    return `
-      <section class="report-section">
-        <div class="section-eyebrow">${esc(eyebrow)}</div>
+  function rechtlicheHinweise() {
+    return `<hr class="report-divider">
+
+      <!-- Haftungsausschluss -->
+      <div class="report-section">
+        <div class="section-eyebrow">Haftungsausschluss</div>
         <h2>Rechtliche Hinweise</h2>
         <div class="haftung-box">
-          <p>Diese Futterberatung ersetzt keine tierärztliche Untersuchung, Diagnose oder Behandlung. Bei gesundheitlichen Auffälligkeiten ist immer eine Tierärztin bzw. ein Tierarzt hinzuzuziehen. Die Beratung umfasst ausschließlich die Beratung hinsichtlich artgerechter Ernährung im Rahmen des freien Gewerbes – mit Ausnahme der den Tierärzt:innen vorbehaltenen diagnostischen und therapeutischen Tätigkeiten.</p>
-          <p>Die Empfehlungen beruhen auf den zur Verfügung gestellten Angaben, Fotos und Unterlagen (z.&nbsp;B. Heuanalysen) zum Zeitpunkt der Beratung. Für die Richtigkeit und Vollständigkeit dieser Angaben kann keine Haftung übernommen werden. Ändern sich Gesundheitszustand, Haltung, Nutzung oder Futtermittel, sollte die Ration neu bewertet werden.</p>
-          <p>Die Umsetzung der Empfehlungen erfolgt in der Verantwortung der Pferdehalterin bzw. des Pferdehalters. Nährstoffgehalte von Futtermitteln unterliegen natürlichen Schwankungen; berechnete Werte sind daher als Orientierung zu verstehen.</p>
-          <p>Diese Beratungsakte ist ausschließlich für die Auftraggeberin bzw. den Auftraggeber bestimmt. Eine Weitergabe an Dritte – ausgenommen an die betreuende Tierärztin bzw. den betreuenden Tierarzt – ist nur nach Rücksprache gestattet.</p>
+          <p>Die vorliegenden Empfehlungen wurden von Dipl.-Ing. Kristina Heidinger im Rahmen einer Ernährungsberatung für Pferde (pferdestaerken.at) erstellt. Sie basieren ausschließlich auf den zum Beratungszeitpunkt vorliegenden Angaben der Tierhalterin sowie den direkt erhobenen Befunden. Für die Richtigkeit und Vollständigkeit der mitgeteilten Informationen übernimmt die Beraterin keine Haftung.</p>
+          <p>Die Empfehlungen ersetzen keine tierärztliche Diagnose oder Behandlung. Bei Erkrankung, Verschlechterung des Allgemeinbefindens oder Unsicherheit ist unverzüglich ein Tierarzt hinzuzuziehen. Die Umsetzung der Rationsempfehlungen liegt in der alleinigen Verantwortung der Tierhalterin.</p>
+          <p>Bei Sportpferden sind sämtliche empfohlenen Futtermittel und Ergänzungen vom Besitzer oder der Besitzerin eigenverantwortlich auf Dopingrelevanz zu überprüfen. pferdestaerken.at übernimmt hierfür keine Haftung.</p>
         </div>
-      </section>`;
+      </div>`;
   }
 
-  // ── Akademie Pferdewissen ──
-  const UTM = 'utm_source=pferdestaerken&utm_medium=beratungsakte';
-  const AKADEMIE_KURSE = [
-    { label: 'Onlinekurs', title: 'Hufe gesund füttern', path: 'online-kurse/hufe-gesund-fuettern/' },
-    { label: 'Onlinekurs', title: 'Das 1×1 der Heuanalyse', path: 'online-kurse/heuanalyse/' },
-    { label: 'E-Book', title: 'Proteinversorgung beim Pferd', path: 'online-kurse/e-book-proteinversorgung/' },
-  ];
-
-  function akademie({ campaign = '', content = '' } = {}) {
-    const utm = campaign ? `${UTM}&utm_campaign=${encodeURIComponent(campaign)}` : UTM;
-    const cards = AKADEMIE_KURSE.map(
-      (k) => `
-          <a class="akademie-card" href="https://pferdewissen.at/${k.path}?${utm}" target="_blank" rel="noopener">
-            <div class="akademie-card-label">${esc(k.label)}</div>
-            <div class="akademie-card-title">${esc(k.title)}</div>
-          </a>`,
-    ).join('');
-    return `
-      <section class="akademie-section">
-        <div class="section-eyebrow">Akademie Pferdewissen</div>
-        <h2>Wissen vertiefen</h2>
-        <p class="akademie-intro">Du möchtest noch tiefer in die Pferdefütterung einsteigen? In meinen Onlinekursen und E-Books erkläre ich die Hintergründe praxisnah und wissenschaftlich fundiert – zum Nachlesen und Nachschauen in deinem eigenen Tempo.</p>
-        <div class="akademie-cards">${cards}
+  // ── Akademie für Angewandtes Pferdewissen ──
+  function akademie() {
+    return `<div class="akademie-section">
+        <div class="section-eyebrow">Akademie für Angewandtes Pferdewissen</div>
+        <p class="akademie-intro">Wenn du dein Wissen über Pferdefütterung weiter vertiefen möchtest, findest du hier meine Onlinekurse und E-Books:</p>
+        <div class="akademie-cards">
+          <a class="akademie-card" href="https://pferdewissen.at/online-kurse/hufe-gesund-fuettern/?utm_source=pferdestaerken&utm_medium=website" target="_blank" rel="noopener">
+            <div class="akademie-card-label">Onlinekurs</div>
+            <div class="akademie-card-title">Hufe gesund füttern</div>
+          </a>
+          <a class="akademie-card" href="https://pferdewissen.at/online-kurse/heuanalyse/?utm_source=pferdestaerken&utm_medium=website" target="_blank" rel="noopener">
+            <div class="akademie-card-label">Onlinekurs</div>
+            <div class="akademie-card-title">Das 1×1 der Heuanalyse</div>
+          </a>
+          <a class="akademie-card" href="https://pferdewissen.at/online-kurse/e-book-proteinversorgung/?utm_source=pferdestaerken&utm_medium=website" target="_blank" rel="noopener">
+            <div class="akademie-card-label">E-Book</div>
+            <div class="akademie-card-title">Proteinversorgung beim Pferd</div>
+          </a>
         </div>
-        <p class="akademie-rabatt">${
-          content ||
-          `Alle Kurse und E-Books findest du auf <a href="https://pferdewissen.at/?${utm}" target="_blank" rel="noopener">pferdewissen.at</a>.`
-        }</p>
-      </section>`;
+        <p class="akademie-rabatt">Mit dem Code <strong>BONUS10TINA-H</strong> bekommst du 10 % Rabatt auf alle <a href="https://pferdewissen.at/online-kurse/?utm_source=pferdestaerken&utm_medium=website" target="_blank" rel="noopener">Onlinekurse der Akademie</a>.</p>
+      </div>`;
   }
 
   // ── Beraterin-Karte (Kristina Heidinger) ──
   function beraterin() {
-    return `
-      <div class="beraterin-card">
-        <div class="beraterin-avatar">KH</div>
-        <div>
+    return `<div class="beraterin-card">
+        <div class="beraterin-avatar">K</div>
+        <div class="beraterin-info">
           <div class="beraterin-name">Dipl.-Ing. Kristina Heidinger</div>
           <div class="beraterin-detail">
-            Unabhängige Futterberatung für Pferde<br>
-            Fragen zur Beratung? Schreib mir gerne: <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a><br>
-            <a href="https://pferdestaerken.at/" target="_blank" rel="noopener">pferdestaerken.at</a>
+            Ernährungsberatung für Pferde · pferdestaerken.at<br>
+            Weiningergasse 3, 3040 Neulengbach<br>
+            <a href="mailto:beratung@pferdestaerken.at">beratung@pferdestaerken.at</a>
           </div>
         </div>
       </div>`;
   }
 
+  // ── Lightbox (von assets/beratung.js initialisiert) ──
+  function lightbox() {
+    return `<div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-close" aria-label="Schließen">×</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Vorheriges Foto">‹</button>
+    <img class="lightbox-img" src="" alt="">
+    <button class="lightbox-nav lightbox-next" aria-label="Nächstes Foto">›</button>
+    <div class="lightbox-counter"></div>
+  </div>`;
+  }
+
   // ── Footer ──
-  function footer({ year = new Date().getFullYear() } = {}) {
-    return `
-    <footer class="site-footer">
-      <div>© ${esc(year)} pferdestaerken.at · Dipl.-Ing. Kristina Heidinger</div>
+  function footer() {
+    return `<footer class="site-footer">
+      <span>© ${new Date().getFullYear()} pferdestaerken.at · Dipl.-Ing. Kristina Heidinger</span>
       <div class="footer-links">
         <a href="/impressum/">Impressum</a>
         <a href="/datenschutz/">Datenschutz</a>
@@ -226,13 +224,14 @@
   }
 
   const WIDGETS = {
+    'stammdaten-beraterin': stammdatenBeraterin,
     bcs,
     'cns-nicht-beurteilbar': cnsNichtBeurteilbar,
-    lightbox,
     'allgemeine-hinweise': allgemeineHinweise,
     'rechtliche-hinweise': rechtlicheHinweise,
     akademie,
     beraterin,
+    lightbox,
     footer,
   };
 
@@ -246,7 +245,6 @@
       }
       const args = { ...el.dataset };
       delete args.widget;
-      if (el.innerHTML.trim()) args.content = el.innerHTML.trim();
       el.outerHTML = fn(args);
     }
   }

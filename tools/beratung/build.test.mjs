@@ -19,16 +19,18 @@ test('randomPin ist immer 4-stellig', () => {
 
 test('zentrale Widgets rendern (assets/beratung-widgets.js)', async () => {
   const w = await loadWidgets();
-  const bcs = w.bcs({ score: '5', horse: 'Testpferd', content: 'Beschreibung' });
+  const bcs = w.bcs({ score: '7', horse: 'Testpferd' });
   assert.match(bcs, /bcs-seg active/);
-  assert.match(bcs, /5 \/ 9/);
-  assert.match(bcs, /Beschreibung/);
+  assert.match(bcs, /Testpferd · BCS 7 – Übergewichtig/);
   assert.throws(() => w.bcs({ score: '10' }), /1–9/);
+  assert.throws(() => w.bcs({}), /1–9/);
   assert.match(w.bcs({ score: '3', horse: '<b>x</b>' }), /&lt;b&gt;x&lt;\/b&gt;/);
-  assert.match(w['cns-nicht-beurteilbar']({}), /nicht beurteilbar/);
-  assert.match(w.akademie({ campaign: 'abc' }), /utm_campaign=abc/);
+  assert.match(w['cns-nicht-beurteilbar'](), /Nicht beurteilbar/);
+  assert.match(w.akademie(), /BONUS10TINA-H/);
   assert.match(w.beraterin(), /Kristina Heidinger/);
-  for (const name of ['allgemeine-hinweise', 'rechtliche-hinweise', 'footer', 'lightbox']) assert.ok(w[name]());
+  assert.match(w['stammdaten-beraterin'](), /Weiningergasse 3/);
+  assert.match(w.footer(), /href="\/impressum\/"/);
+  for (const name of ['allgemeine-hinweise', 'rechtliche-hinweise', 'lightbox']) assert.ok(w[name]());
 });
 
 test('checkWidgets erkennt unbekannte Widgets', async () => {

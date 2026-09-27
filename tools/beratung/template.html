@@ -1,220 +1,222 @@
 <!--
-  Vorlage für eine neue Beratungsakte.
+  Vorlage für eine neue Beratungsakte (Aufbau wie spesch/bschin).
   Kopieren nach tools/beratung/src/<slug>/index.html (gitignored!) und dort ausfüllen.
   In DIESER Datei niemals Kundendaten eintragen — das Repo ist öffentlich.
+  <div data-widget="…"> sind zentrale Bausteine aus /assets/beratung-widgets.js.
 -->
-
-  <div class="report-hero">
-    <div class="eyebrow">Beratungsakte</div>
-    <h1>Futterberatung für [Pferd]</h1>
-    <p class="hero-sub">[Online-/Vor-Ort-Beratung] · [Datum]</p>
-  </div>
-
-  <div class="report-wrap">
-
-    <!-- Stammdaten -->
-    <div class="meta-strip">
-      <div class="meta-cell">
-        <div class="meta-cell-label">Beraterin</div>
-        <dl>
-          <dt>Name</dt><dd>Dipl.-Ing. Kristina Heidinger</dd>
-          <dt>E-Mail</dt><dd>beratung@pferdestaerken.at</dd>
-          <dt>Web</dt><dd>pferdestaerken.at</dd>
-        </dl>
-      </div>
-      <div class="meta-cell">
-        <div class="meta-cell-label">Kundin</div>
-        <dl>
-          <dt>Name</dt><dd>[Name]</dd>
-          <dt>Adresse</dt><dd>[Straße]<br>[PLZ Ort]</dd>
-          <dt>E-Mail</dt><dd>[E-Mail]</dd>
-        </dl>
-      </div>
-      <div class="meta-cell">
-        <div class="meta-cell-label">Pferd</div>
-        <dl>
-          <dt>Name</dt><dd>[Pferd]</dd>
-          <dt>Rasse</dt><dd>[Rasse]</dd>
-          <dt>Geschlecht</dt><dd>[Geschlecht]</dd>
-          <dt>Alter</dt><dd>[Alter] Jahre</dd>
-          <dt>Stockmaß</dt><dd>[Stockmaß] cm</dd>
-          <dt>Gewicht</dt><dd>[Gewicht] kg</dd>
-          <dt>Haltung</dt><dd>[Haltung]</dd>
-        </dl>
-      </div>
+    <div class="report-hero">
+      <div class="eyebrow">Beratungsakte · pferdestaerken.at</div>
+      <h1>[Pferd]</h1>
+      <div class="hero-sub">[Kundin] · Futterberatung vom [Datum]</div>
     </div>
 
-    <!-- 01 Beratung -->
-    <section class="report-section">
-      <div class="section-eyebrow">01 · Beratung</div>
-      <h2>Beratung &amp; Beratungsziel</h2>
-      <div class="meta-strip" style="margin:0 0 22px">
-        <div class="meta-cell"><div class="meta-cell-label">Datum</div><dl><dd>[Datum]</dd></dl></div>
-        <div class="meta-cell"><div class="meta-cell-label">Beratungsart</div><dl><dd>[Onlineberatung]</dd></dl></div>
-        <div class="meta-cell"><div class="meta-cell-label">Beauftragt durch</div><dl><dd>[Eigentümerin]</dd></dl></div>
-      </div>
-      <div class="goal-box">
-        <p>[Beratungsziel]</p>
-      </div>
-    </section>
+    <div class="report-wrap">
 
-    <!-- 02 Befunderhebung -->
-    <section class="report-section">
-      <div class="section-eyebrow">02 · Befunderhebung</div>
-      <h2>Körperkondition</h2>
-      <div class="befund-grid">
-        <div data-widget="bcs" data-score="5" data-horse="[Pferd]"></div>
-        <div data-widget="cns-nicht-beurteilbar" data-horse="[Pferd]"></div>
-      </div>
-    </section>
-
-    <!-- 03 Anamnese -->
-    <section class="report-section">
-      <div class="section-eyebrow">03 · Anamnese</div>
-      <h2>Anamnese</h2>
-      <div class="anamnese-text">
-        <p>[Anamnese]</p>
-      </div>
-      <div class="befund-full" style="margin-top:22px">
-        <div class="befund-item-label">Übermittelte Unterlagen</div>
-        <div class="unterlagen-list">
-          <div class="unterlagen-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>[Foto]</span></div>
+      <!-- Stammdaten -->
+      <div class="meta-strip">
+        <div data-widget="stammdaten-beraterin"></div>
+        <div class="meta-cell">
+          <div class="meta-cell-label">Kundin</div>
+          <dl>
+            <dt>Name</dt>      <dd>[Kundin]</dd>
+            <dt>Adresse</dt>   <dd>[Adresse]</dd>
+            <dt>E-Mail</dt>    <dd>[E-Mail]</dd>
+          </dl>
         </div>
-        <div class="foto-grid">
-          <div class="foto-thumb"><img src="@file:assets/foto-1.jpg" alt="[Pferd]"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 Nährstoffbilanz -->
-    <section class="report-section">
-      <div class="section-eyebrow">04 · Nährstoffbilanz</div>
-      <h2>Nährstoffbilanz</h2>
-      <p class="nb-subtitle">Bedarf nach GfE (2014) im Vergleich zur Versorgung über die empfohlene Ration (Tageswerte).</p>
-      <div class="nb-notice"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>Die Berechnung wird gerade erstellt – Werte und Bewertung folgen.</span></div>
-
-      <div class="nb-section">
-        <div class="nb-section-title">Energie &amp; Protein</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">Versorgung</th><th class="right">Differenz</th><th>Bewertung</th></tr></thead>
-            <tbody>
-              <tr><td>Energie (ME) <span class="nb-unit">MJ</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>pcv Rohprotein <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Lysin <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-            </tbody>
-          </table>
+        <div class="meta-cell">
+          <div class="meta-cell-label">Pferd</div>
+          <dl>
+            <dt>Name</dt>      <dd>[Pferd]</dd>
+            <dt>Rasse</dt>     <dd>[Rasse]</dd>
+            <dt>Geschlecht</dt><dd>[Geschlecht]</dd>
+            <dt>Alter</dt>     <dd>[Alter] Jahre</dd>
+            <dt>Gewicht</dt>   <dd>[Gewicht] kg</dd>
+            <dt>Stockmaß</dt>  <dd>[Stockmaß] cm</dd>
+            <dt>Haltung</dt>   <dd>[Haltung]</dd>
+          </dl>
         </div>
       </div>
 
-      <div class="nb-section">
-        <div class="nb-section-title">Kohlenhydrate</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">Versorgung</th><th class="right">Differenz</th><th>Bewertung</th></tr></thead>
-            <tbody>
-              <tr><td>Zucker + Stärke <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Zucker (Gesamtration) <span class="nb-unit">% TS</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="nb-section">
-        <div class="nb-section-title">Mengenelemente</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">Versorgung</th><th class="right">Differenz</th><th>Bewertung</th></tr></thead>
-            <tbody>
-              <tr><td>Calcium (Ca) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Phosphor (P) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Magnesium (Mg) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Natrium (Na) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Kalium (K) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Chlorid (Cl) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Schwefel (S) <span class="nb-unit">g</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="ratio-box">
-          <div class="ratio-box-title">Verhältnisse</div>
-          <div class="ratio-item"><span class="ratio-label">Ca : P</span><span class="ratio-val">–</span><span class="ratio-note">Ziel 1,5–2 : 1</span></div>
-        </div>
-      </div>
-
-      <div class="nb-section">
-        <div class="nb-section-title">Spurenelemente</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">Versorgung</th><th class="right">Differenz</th><th>Bewertung</th></tr></thead>
-            <tbody>
-              <tr><td>Kupfer (Cu) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Zink (Zn) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Mangan (Mn) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Eisen (Fe) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Selen (Se) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Jod (I) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Kobalt (Co) <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="ratio-box">
-          <div class="ratio-box-title">Verhältnisse</div>
-          <div class="ratio-item"><span class="ratio-label">Zn : Cu</span><span class="ratio-val">–</span><span class="ratio-note">Ziel 3–4 : 1</span></div>
-          <div class="ratio-item"><span class="ratio-label">Zn : Mn</span><span class="ratio-val">–</span><span class="ratio-note">Ziel ca. 1 : 1</span></div>
-        </div>
-      </div>
-
-      <div class="nb-section">
-        <div class="nb-section-title">Vitamine</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">Versorgung</th><th class="right">Differenz</th><th>Bewertung</th></tr></thead>
-            <tbody>
-              <tr><td>Vitamin A <span class="nb-unit">IE</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Vitamin D <span class="nb-unit">IE</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Vitamin E <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Vitamin B1 <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-              <tr><td>Biotin <span class="nb-unit">mg</span></td><td class="right">–</td><td class="right">–</td><td class="right diff">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- 05 Fachliche Einordnung -->
-    <section class="report-section">
-      <div class="section-eyebrow">05 · Fachliche Einordnung</div>
-      <h2>Fachliche Einordnung</h2>
-      <div class="einordnung-block">
-        <h3 class="einordnung-h3">[Thema]</h3>
-        <p>[Text]</p>
-      </div>
-    </section>
-
-    <!-- 06 Rationsempfehlung -->
-    <section class="report-section">
-      <div class="section-eyebrow">06 · Rationsempfehlung</div>
-      <h2>Rationsempfehlung</h2>
-      <div class="ration-list">
-        <div class="ration-item">
-          <div class="ration-num">1</div>
-          <div>
-            <div class="ration-category">Raufutter</div>
-            <div class="ration-product">[Produkt]</div>
-            <div class="ration-amount">[Menge]</div>
-            <p class="ration-reason">[Begründung]</p>
+      <!-- Beratungsdetails -->
+      <div class="report-section">
+        <div class="section-eyebrow">Beratung</div>
+        <div class="meta-strip" style="margin-top: 0;">
+          <div class="meta-cell">
+            <dl>
+              <dt>Datum</dt>              <dd>[Datum]</dd>
+              <dt>Art</dt>                <dd>[Onlineberatung]</dd>
+              <dt>Beauftragt durch</dt>   <dd>[Eigentümerin]</dd>
+            </dl>
           </div>
         </div>
       </div>
-    </section>
 
-    <div data-widget="allgemeine-hinweise" data-eyebrow="07 · Hinweise"></div>
-    <div data-widget="rechtliche-hinweise" data-eyebrow="08 · Rechtliches"></div>
-    <div data-widget="akademie" data-campaign="[slug]"></div>
-    <div data-widget="beraterin"></div>
+      <!-- Beratungsziel -->
+      <div class="report-section">
+        <div class="section-eyebrow">Beratungsziel</div>
+        <h2>Was soll diese Beratung bewirken?</h2>
+        <div class="goal-box">
+          <p>[Beratungsziel]</p>
+        </div>
+      </div>
 
-  </div>
+      <!-- Befunderhebung -->
+      <div class="report-section">
+        <div class="section-eyebrow">Befunderhebung</div>
+        <h2>Beurteilung zum Zeitpunkt der Beratung</h2>
+        <div class="befund-grid">
+          <div data-widget="bcs" data-score="[1–9]" data-horse="[Pferd]"></div>
+          <div data-widget="cns-nicht-beurteilbar"></div>
+          <div class="befund-full">
+            <div class="befund-item-label">Klinischer Eindruck &amp; Anamnese</div>
+            <div class="anamnese-text">
+              <p>[Anamnese]</p>
+            </div>
+            <div class="foto-grid">
+          <div class="foto-thumb"><img src="@file:assets/foto-1.jpg" alt="[Pferd]"></div>
+            </div>
+          </div>
+          <div class="befund-full">
+            <div class="befund-item-label">Vorliegende Unterlagen</div>
+            <div class="unterlagen-list">
+              <div class="unterlagen-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span><a class="ration-link" href="@file:assets/heuanalyse.pdf" download="Heuanalyse.pdf">[Heuanalyse]</a></span>
+              </div>
+            </div>
+            <!-- ohne Unterlagen: <div class="unterlagen-empty">Keine weiteren Unterlagen vorgelegt.</div> -->
+          </div>
+        </div>
+      </div>
 
-  <div data-widget="footer"></div>
+      <!-- Rationsberechnung -->
+      <div class="report-section">
+        <div class="section-eyebrow">Rationsberechnung</div>
+        <h2>Nährstoffbilanz</h2>
+        <p class="nb-subtitle">Analyse der aktuellen Ration (IST-Zustand) im Vergleich zum errechneten Tagesbedarf.</p>
+        <div class="nb-section">
+          <div class="nb-section-title">Energie &amp; Protein</div>
+          <div class="table-wrap">
+            <table class="nb-table">
+              <thead>
+                <tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">IST gesamt</th><th>Bewertung</th></tr>
+              </thead>
+              <tbody>
+              <tr><td>Energie <span class="nb-unit">(MJ ME)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Protein <span class="nb-unit">(g)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="nb-section">
+          <div class="nb-section-title">Mengenelemente</div>
+          <div class="table-wrap">
+            <table class="nb-table">
+              <thead>
+                <tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">IST gesamt</th><th>Bewertung</th></tr>
+              </thead>
+              <tbody>
+              <tr><td>Calcium <span class="nb-unit">(g)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Phosphor <span class="nb-unit">(g)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Magnesium <span class="nb-unit">(g)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ratio-box">
+            <div class="ratio-box-title">Verhältnisse</div>
+              <div class="ratio-item">
+                <span class="ratio-label">Ca : P</span>
+                <span class="ratio-val">–</span>
+                <span class="ratio-note">Empfehlung: 1,5–2,5 : 1</span>
+              </div>
+              <div class="ratio-item">
+                <span class="ratio-label">Ca : Mg</span>
+                <span class="ratio-val">–</span>
+                <span class="ratio-note">Empfehlung: 2–3 : 1</span>
+              </div>
+          </div>
+        </div>
+        <div class="nb-section">
+          <div class="nb-section-title">Spurenelemente</div>
+          <div class="table-wrap">
+            <table class="nb-table">
+              <thead>
+                <tr><th>Nährstoff</th><th class="right">Bedarf</th><th class="right">IST gesamt</th><th>Bewertung</th></tr>
+              </thead>
+              <tbody>
+              <tr><td>Kupfer <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Zink <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Eisen <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Mangan <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Selen <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              <tr><td>Iod <span class="nb-unit">(mg)</span></td><td class="right">–</td><td class="right">–</td><td><span class="nb-badge nb-na">folgt</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ratio-box">
+            <div class="ratio-box-title">Verhältnisse</div>
+              <div class="ratio-item">
+                <span class="ratio-label">Zn : Cu</span>
+                <span class="ratio-val">–</span>
+                <span class="ratio-note">Empfehlung: 3–5 : 1</span>
+              </div>
+              <div class="ratio-item">
+                <span class="ratio-label">Fe : Cu</span>
+                <span class="ratio-val">–</span>
+                <span class="ratio-note">Empfehlung: max. 10–15 : 1</span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fachliche Einordnung -->
+      <div class="report-section">
+        <div class="section-eyebrow">Einordnung</div>
+        <h2>Fachliche Einordnung</h2>
+
+        <div class="einordnung-block">
+          <p>[Einordnung]</p>
+        </div>
+      </div>
+
+      <!-- Empfohlene Fütterung -->
+      <div class="report-section">
+        <div class="section-eyebrow">Rationsempfehlung</div>
+        <h2>Empfohlene Fütterung</h2>
+        <div class="ration-list">
+          <div class="ration-item">
+            <div class="ration-num">1</div>
+            <div class="ration-body">
+              <div class="ration-category">Raufutter</div>
+              <div class="ration-product">Heu</div>
+              <div class="ration-amount">[Menge]</div>
+              <div class="ration-reason">[Begründung]</div>
+            </div>
+          </div>
+          <div class="ration-item">
+            <div class="ration-num">2</div>
+            <div class="ration-body">
+              <div class="ration-category">Mineralfutter</div>
+              <div class="ration-product">[Produkt]</div>
+              <!-- <div class="ration-ext-link"><a class="ration-link" href="…" target="_blank" rel="noopener">Produktseite …</a></div> -->
+              <div class="ration-amount">[Menge]</div>
+              <div class="ration-reason">[Begründung]</div>
+            </div>
+          </div>
+        </div>
+        <div data-widget="allgemeine-hinweise"></div>
+      </div>
+
+      <div data-widget="rechtliche-hinweise"></div>
+
+      <!-- Akademie -->
+      <div data-widget="akademie"></div>
+
+      <!-- Beraterin -->
+      <div data-widget="beraterin"></div>
+
+    </div><!-- /report-wrap -->
+  <!-- Lightbox -->
   <div data-widget="lightbox"></div>
+
+    <div data-widget="footer"></div>
