@@ -1,0 +1,54 @@
+name: Deploy (Hetzner)
+
+# Baut die Website als Container-Image und stellt sie auf dem Server um. Der SSH-Key darf
+# dort nur das (erzwungen in pferdestaerken-server/deploy-hook.sh). Secrets und Variablen
+# liegen im GitHub-Environment "prod" (nur für main freigegeben) — Workflows aus Forks
+# kommen da nicht ran.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy-server
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # DEPLOY_SSH_KEY (secret), DEPLOY_HOST, DEPLOY_KNOWN_HOSTS, PUBLIC_URL (vars)
+    environment: prod
+    env:
+      IMAGE: ghcr.io/tinaheidinger/pferdestaerken-site
+      SHA: ${{ github.sha }}
+      SSH: ssh -i /home/runner/.ssh/deploy -o StrictHostKeyChecking=yes -o BatchMode=yes
+      TARGET: deploy@${{ vars.DEPLOY_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Image bauen und nach GHCR pushen
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker build -t "$IMAGE:$SHA" -t "$IMAGE:latest" .
+          docker push "$IMAGE:$SHA"
+          docker push "$IMAGE:latest"
+
+      - name: SSH einrichten (Host-Key fest hinterlegt)
+        run: |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/null ~/.ssh/deploy
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy
+          printf '%s\n' "${{ vars.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Server bei GHCR anmelden
+        run: $SSH "$TARGET" "ghcr-login ${{ github.actor }}" <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Container umstellen
+        run: $SSH "$TARGET" "deploy $SHA"
+
+      - name: Health check
+        run: curl -fsS --retry 12 --retry-all-errors --retry-delay 5 -o /dev/null "${{ vars.PUBLIC_URL }}/"

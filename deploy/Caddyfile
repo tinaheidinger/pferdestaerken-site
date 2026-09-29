@@ -1,0 +1,12 @@
+# Website-Container: liefert nur die statischen Dateien aus. TLS, Kompression und
+# Header macht der Edge-Caddy (Repo pferdestaerken-server) davor.
+{
+	admin off
+	auto_https off
+}
+
+:8080 {
+	root * /srv
+	file_server
+	header /assets/* Cache-Control "public, max-age=86400"
+}

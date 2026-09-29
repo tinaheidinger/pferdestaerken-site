@@ -1,0 +1,16 @@
+# Nur die Website selbst kommt ins Image.
+.git
+.github
+.gitignore
+.dockerignore
+Dockerfile
+deploy
+!deploy/Caddyfile
+tools
+beratung
+assets/beratung.css
+assets/beratung.js
+assets/beratung-widgets.js
+CNAME
+README.md
+hubspot.config.yml
