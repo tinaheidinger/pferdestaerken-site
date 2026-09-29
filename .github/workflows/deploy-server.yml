@@ -1,54 +1,82 @@
 name: Deploy (Hetzner)
 
-# Baut die Website als Container-Image und stellt sie auf dem Server um. Der SSH-Key darf
-# dort nur das (erzwungen in pferdestaerken-server/deploy-hook.sh). Secrets und Variablen
-# liegen im GitHub-Environment "prod" (nur für main freigegeben) — Workflows aus Forks
-# kommen da nicht ran.
+# Baut die Website als Container-Image und rollt es per Digest auf dem Server aus.
+#
+# Zwei getrennte Jobs mit minimalen Rechten:
+#   build   darf Images nach GHCR schreiben, kennt aber keine Server-Zugangsdaten
+#   deploy  kennt den SSH-Schlüssel (Environment "prod", nur main), darf GHCR nur lesen
+#
+# Der Schlüssel (User deploy-site, nicht in der docker-Gruppe) kann am Server nur "deploy"
+# auslösen. Workflows aus Forks bekommen keine Secrets.
 on:
   push:
     branches: [main]
   workflow_dispatch: {}
 
-permissions:
-  contents: read
-  packages: write
+permissions: {}
 
 concurrency:
   group: deploy-server
   cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest: ${{ steps.push.outputs.digest }}
+    env:
+      IMAGE: ghcr.io/tinaheidinger/pferdestaerken-site
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Image bauen und nach GHCR pushen
+        id: push
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin <<< "$TOKEN"
+          docker build --pull \
+            --label "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            -t "$IMAGE:$GITHUB_SHA" .
+          docker push "$IMAGE:$GITHUB_SHA"
+          digest="$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:$GITHUB_SHA" | cut -d@ -f2)"
+          [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+          docker logout ghcr.io
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     # DEPLOY_SSH_KEY (secret), DEPLOY_HOST, DEPLOY_KNOWN_HOSTS, PUBLIC_URL (vars)
     environment: prod
-    env:
-      IMAGE: ghcr.io/tinaheidinger/pferdestaerken-site
-      SHA: ${{ github.sha }}
-      SSH: ssh -i /home/runner/.ssh/deploy -o StrictHostKeyChecking=yes -o BatchMode=yes
-      TARGET: deploy@${{ vars.DEPLOY_HOST }}
+    permissions:
+      packages: read
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Image bauen und nach GHCR pushen
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker build -t "$IMAGE:$SHA" -t "$IMAGE:latest" .
-          docker push "$IMAGE:$SHA"
-          docker push "$IMAGE:latest"
-
       - name: SSH einrichten (Host-Key fest hinterlegt)
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.DEPLOY_KNOWN_HOSTS }}
+          HOST: ${{ vars.DEPLOY_HOST }}
         run: |
           install -m 700 -d ~/.ssh
           install -m 600 /dev/null ~/.ssh/deploy
-          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy
-          printf '%s\n' "${{ vars.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-
-      - name: Server bei GHCR anmelden
-        run: $SSH "$TARGET" "ghcr-login ${{ github.actor }}" <<< "${{ secrets.GITHUB_TOKEN }}"
+          printf '%s\n' "$KEY" > ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf 'Host server\n  HostName %s\n  User deploy-site\n  IdentityFile ~/.ssh/deploy\n  IdentitiesOnly yes\n  StrictHostKeyChecking yes\n  BatchMode yes\n' "$HOST" > ~/.ssh/config
 
       - name: Container umstellen
-        run: $SSH "$TARGET" "deploy $SHA"
+        env:
+          TOKEN: ${{ github.token }}
+          DIGEST: ${{ needs.build.outputs.digest }}
+        run: printf 'login %s %s\nimage pferdestaerken-site@%s\n' "$GITHUB_ACTOR" "$TOKEN" "$DIGEST" | ssh server deploy
 
       - name: Health check
-        run: curl -fsS --retry 12 --retry-all-errors --retry-delay 5 -o /dev/null "${{ vars.PUBLIC_URL }}/"
+        env:
+          PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+        run: curl -fsS --retry 12 --retry-all-errors --retry-delay 5 -o /dev/null "$PUBLIC_URL/"
